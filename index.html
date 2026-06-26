@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投标价格模拟器</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+    background: #f0f2f8;
+    color: #1a1d2e;
+    padding: 32px 16px;
+    min-height: 100vh;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1d2e;
+    letter-spacing: -0.5px;
+  }
+  .header p {
+    font-size: 13px;
+    color: #8892a4;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  /* Section labels */
+  .sec-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sec-label .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .sl-blue .dot { background: #3b82f6; }
+  .sl-blue { color: #3b82f6; }
+  .sl-purple .dot { background: #8b5cf6; }
+  .sl-purple { color: #8b5cf6; }
+  .sl-orange .dot { background: #f97316; }
+  .sl-orange { color: #f97316; }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .card-accent-blue { border-top: 3px solid #3b82f6; }
+  .card-accent-purple { border-top: 3px solid #8b5cf6; }
+  .card-accent-orange { border-left: 4px solid #f97316; }
+
+  /* Inputs */
+  .input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .input-group {
+    flex: 1;
+    min-width: 130px;
+  }
+  .input-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #8892a4;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fafbfc;
+  }
+  input:focus, select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    background: #fff;
+  }
+  input[type=number] { font-size: 16px; font-weight: 600; }
+
+  /* Buttons */
+  .btn {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
+  .btn:active { transform: translateY(0); }
+  .btn-green { background: #22c55e; }
+  .btn-green:hover { background: #16a34a; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+  .btn-sm { padding: 6px 13px; font-size: 12px; border-radius: 8px; }
+  .btn-del { background: #fee2e2; color: #dc2626; padding: 5px 10px; border-radius: 7px; font-size: 12px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
+  .btn-del:hover { background: #fecaca; }
+  .btn-load { background: #eff6ff; color: #3b82f6; padding: 5px 10px; border-radius: 7px; font-size: 12px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
+  .btn-load:hover { background: #dbeafe; }
+
+  /* Tabs */
+  .rule-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .rule-tab {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .rule-tab.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  .rule-tab:hover:not(.active) { background: #e2e8f0; }
+
+  /* Bidder rows */
+  .bidders { margin-bottom: 12px; }
+  .bidder-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 7px;
+    align-items: center;
+  }
+  .bidder-row .n {
+    width: 28px;
+    text-align: center;
+    font-size: 13px;
+    color: #94a3b8;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .bidder-row input.name { max-width: 120px; }
+  .bidder-row input.price { max-width: 130px; }
+
+  /* Meta stats */
+  .meta-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat-box {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 12px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .stat-box .val {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1;
+  }
+  .stat-box .lbl {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .stat-box.danger .val { color: #dc2626; }
+
+  /* Score grid */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+  }
+  .score-card {
+    background: #f9fafb;
+    border-radius: 14px;
+    padding: 16px;
+    border: 1.5px solid #e2e8f0;
+    transition: all 0.25s;
+  }
+  .score-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  .score-card.rank-1 { border-color: #fbbf24; background: #fffbeb; }
+  .score-card.rank-2 { border-color: #94a3b8; background: #f8fafc; }
+  .score-card.rank-3 { border-color: #d97706; background: #fffbeb; }
+  .score-card .top-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .rank-1 .top-badge { background: #fef3c7; color: #92400e; }
+  .rank-2 .top-badge { background: #f1f5f9; color: #475569; }
+  .rank-3 .top-badge { background: #fef3c7; color: #92400e; }
+  .score-name { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+  .score-price { font-size: 12px; color: #94a3b8; margin-bottom: 10px; font-weight: 500; }
+  .score-big {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .rank-1 .score-big { color: #15803d; }
+  .rank-2 .score-big { color: #475569; }
+  .rank-3 .score-big { color: #92400e; }
+  .score-raw { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+  .score-rank {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .rank-1 .score-rank { background: #dcfce7; color: #15803d; }
+  .rank-2 .score-rank { background: #f1f5f9; color: #475569; }
+  .rank-3 .score-rank { background: #fef3c7; color: #92400e; }
+  .other .score-rank { background: #f1f5f9; color: #64748b; }
+  .score-tags { margin-top: 6px; }
+  .risk-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .risk-tag.danger { background: #fee2e2; color: #dc2626; }
+  .risk-tag.warn { background: #fff3cd; color: #b45309; }
+
+  /* Review table */
+  .review-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+  .review-table th {
+    background: #f8fafc;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 700;
+    color: #64748b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+  }
+  .review-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  .review-table tr:last-child td { border-bottom: none; }
+  .review-table tr:hover td { background: #fafbff; }
+
+  /* Tags */
+  .chip { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 600; }
+  .chip.ok { background: #dcfce7; color: #15803d; }
+  .chip.warn { background: #fff3cd; color: #b45309; }
+  .chip.danger { background: #fee2e2; color: #dc2626; }
+  .chip-blue { background: #eff6ff; color: #3b82f6; }
+
+  /* Low bid warning */
+  .low-warn {
+    background: #fff3cd;
+    border: 1px solid #fcd34d;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #92400e;
+    margin-top: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .low-warn .icon { font-size: 16px; flex-shrink: 0; }
+
+  /* Save bar */
+  .save-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .save-tip { font-size: 13px; color: #22c55e; font-weight: 700; }
+
+  /* History */
+  .hist-card { }
+  .hist-tabs { display: flex; gap: 7px; margin-bottom: 14px; flex-wrap: wrap; }
+  .hist-tab {
+    padding: 5px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+  }
+  .hist-tab.active { background: #8b5cf6; color: #fff; border-color: #8b5cf6; }
+  .hist-tab:hover:not(.active) { background: #e2e8f0; }
+  .hist-tab .cnt {
+    background: rgba(0,0,0,0.1);
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 10px;
+    margin-left: 4px;
+  }
+  .hist-tab.active .cnt { background: rgba(255,255,255,0.3); }
+  .hist-list { display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; }
+  .hist-item {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid #e2e8f0;
+    transition: all 0.2s;
+  }
+  .hist-item:hover { border-color: #8b5cf6; box-shadow: 0 2px 8px rgba(139,92,246,0.08); }
+  .hist-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
+  .hist-name { font-weight: 700; font-size: 14px; color: #1e293b; }
+  .hist-detail { font-size: 11px; color: #94a3b8; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .hist-scores { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .hist-score-chip {
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #f1f5f9;
+    color: #475569;
+  }
+  .hist-score-chip.top { background: #dcfce7; color: #15803d; }
+  .hist-score-chip.warn { background: #fee2e2; color: #dc2626; }
+  .hist-actions { display: flex; gap: 5px; }
+  .hist-empty {
+    text-align: center;
+    padding: 40px;
+    color: #94a3b8;
+    font-size: 14px;
+  }
+  .hist-empty .sub { font-size: 12px; margin-top: 6px; }
+
+  /* Gap table */
+  .gap-section { margin-top: 18px; }
+  .gap-title { font-weight: 700; font-size: 14px; color: #1e293b; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .gap-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #e2e8f0; }
+  .gap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .gap-table th {
+    background: #f8fafc;
+    padding: 9px 12px;
+    font-weight: 700;
+    text-align: center;
+    color: #64748b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .gap-table th:first-child { text-align: left; }
+  .gap-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; text-align: center; vertical-align: middle; }
+  .gap-table td:first-child { text-align: left; font-weight: 700; color: #1e293b; }
+  .gap-table tr:last-child td { border-bottom: none; }
+  .gap-table tr:hover td { background: #fafbff; }
+  .rank-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 800;
+    color: #fff;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .rd1 { background: #fbbf24; color: #92400e; }
+  .rd2 { background: #94a3b8; color: #fff; }
+  .rd3 { background: #d97706; color: #fff; }
+  .rdn { background: #cbd5e1; color: #fff; }
+  .gap-score { font-weight: 800; font-size: 13px; color: #1e293b; }
+  .gap-bar-wrap { background: #e2e8f0; border-radius: 3px; height: 5px; width: 65px; display: inline-block; vertical-align: middle; margin: 0 4px; overflow: hidden; }
+  .gap-bar { height: 100%; border-radius: 3px; }
+  .gap-diff { font-size: 10px; margin-top: 2px; }
+  .diff-safe { color: #15803d; }
+  .diff-warn { color: #d97706; }
+  .diff-danger { color: #dc2626; }
+
+  /* Manual pressure analysis */
+  .pressure-note {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .pressure-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: end;
+    margin-bottom: 12px;
+  }
+  .pressure-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+  .pressure-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .pressure-table th {
+    background: #f8fafc;
+    padding: 9px 10px;
+    text-align: left;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .pressure-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .pressure-table tr:last-child td { border-bottom: none; }
+  .gap-pos { color: #15803d; font-weight: 800; }
+  .gap-neg { color: #dc2626; font-weight: 800; }
+  .gap-flat { color: #64748b; font-weight: 800; }
+
+  .rule-explain {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 4px;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .rule-explain-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 4px;
+  }
+  .rule-formula {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-weight: 700;
+    margin: 0 2px;
+  }
+  .rule-explain ul {
+    margin: 6px 0 0 16px;
+  }
+
+  /* Meta info line */
+  .meta-line { font-size: 12px; color: #94a3b8; margin-bottom: 12px; line-height: 1.8; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .meta-line strong { color: #475569; }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid #f1f5f9; margin: 14px 0; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .meta-stats { grid-template-columns: repeat(2, 1fr); }
+    .score-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">📉</div>
+    <div>
+      <h1>投标价格模拟器</h1>
+      <p>低价审查 · 价格评分 · 历史对比</p>
+    </div>
+  </div>
+
+  <!-- ① 低价审查阈值 -->
+  <div class="card card-accent-blue">
+    <div class="sec-label sl-blue"><span class="dot"></span>低价审查阈值</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>(1) 低于均值 ___%</label>
+        <input type="number" id="p1" value="88" min="0" max="100" step="0.5">
+      </div>
+      <div class="input-group">
+        <label>(2) 低于次低 ___%</label>
+        <input type="number" id="p2" value="95" min="0" max="100" step="0.5">
+      </div>
+      <div class="input-group">
+        <label>(3) 低于限价 ___%</label>
+        <input type="number" id="p3" value="70" min="0" max="100" step="0.5">
+      </div>
+      <div class="input-group">
+        <label>最高限价（万元）</label>
+        <input type="number" id="maxPrice" value="100" min="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 评分规则 -->
+  <div class="card">
+    <div class="sec-label sl-blue"><span class="dot"></span>评分规则</div>
+    <div class="rule-tabs" id="ruleTabs">
+      <button class="rule-tab active" data-rule="lowest">最低价法</button>
+      <button class="rule-tab" data-rule="avg">平均价贴近法</button>
+      <button class="rule-tab" data-rule="ratio">性价比法</button>
+      <button class="rule-tab" data-rule="iq">IQR中间价法</button>
+    </div>
+    <div class="input-row">
+      <div class="input-group" style="max-width:160px;">
+        <label>价格分权重</label>
+        <input type="number" id="weight" value="100" min="10" max="100" step="5">
+      </div>
+      <div class="input-group" style="max-width:160px;">
+        <label>价格分方向</label>
+        <select id="direction">
+          <option value="lower">价低得分高</option>
+          <option value="higher">价高得分高</option>
+        </select>
+      </div>
+    </div>
+    <div class="rule-explain" id="ruleExplain"></div>
+  </div>
+
+  <!-- ③ 投标人 -->
+  <div class="card">
+    <div class="sec-label sl-blue"><span class="dot"></span>投标人报价（万元）</div>
+    <div class="bidders" id="bidders"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" id="addBtn">+ 添加投标人</button>
+      <button class="btn btn-green" id="calcBtn">▶ 计算结果</button>
+    </div>
+  </div>
+
+  <!-- ④ 手动改价分析 -->
+  <div class="card card-accent-purple">
+    <div class="sec-label sl-purple"><span class="dot"></span>手动改价分析</div>
+    <div class="pressure-note">
+      选择本轮要改价的对象，再指定低价竞争者和目标对象；每次只手动输入改价对象的报价，系统会重新计算目标对象与低价竞争者的分差。
+    </div>
+    <div class="pressure-actions">
+      <div class="input-group" style="max-width:150px;">
+        <label>本轮改价对象</label>
+        <select id="pressureA"></select>
+      </div>
+      <div class="input-group" style="max-width:150px;">
+        <label>低价竞争者</label>
+        <select id="pressureB"></select>
+      </div>
+      <div class="input-group" style="max-width:150px;">
+        <label>目标对象</label>
+        <select id="pressureC"></select>
+      </div>
+      <div class="input-group" style="max-width:150px;">
+        <label>本轮改价报价</label>
+        <input type="number" id="pressurePrice" min="0.01" step="0.01" placeholder="万元">
+      </div>
+      <button class="btn btn-green" id="addPressureBtn">+ 添加一轮</button>
+      <button class="btn btn-del" id="clearPressureBtn" type="button">清空</button>
+    </div>
+    <div class="pressure-table-wrap">
+      <table class="pressure-table">
+        <thead>
+          <tr>
+            <th>轮次</th>
+            <th>改价报价</th>
+            <th>竞争者得分</th>
+            <th>目标得分</th>
+            <th>目标-竞争分差</th>
+            <th>第一名</th>
+            <th>改价对象审查</th>
+          </tr>
+        </thead>
+        <tbody id="pressureRows">
+          <tr><td colspan="7" style="color:#94a3b8;text-align:center;padding:18px;">暂无分析轮次</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 结果区 -->
+  <div id="resultSection" style="display:none">
+
+    <!-- ④ 低价审查 -->
+    <div class="card">
+      <div class="sec-label sl-blue"><span class="dot"></span>低价审查结果</div>
+      <div class="meta-stats" id="metaStats"></div>
+      <div id="reviewTable"></div>
+    </div>
+
+    <!-- ⑤ 评分结果 -->
+    <div class="card card-accent-purple">
+      <div class="sec-label sl-purple"><span class="dot" style="background:#8b5cf6"></span>价格评分结果</div>
+      <div class="meta-line" id="scoreMeta"></div>
+      <div class="score-grid" id="scoreGrid"></div>
+      <div id="scoreWarn"></div>
+      <div class="save-bar">
+        <input type="text" id="roundName" placeholder="本轮名称，如：第一轮开标" style="max-width:220px;">
+        <button class="btn btn-green" id="saveBtn">💾 保存到本页历史</button>
+        <span class="save-tip" id="saveTip"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ⑥ 历史记录 -->
+  <div class="card hist-card card-accent-orange">
+    <div class="sec-label sl-orange"><span class="dot" style="background:#f97316"></span>历史记录（本页临时）</div>
+    <div class="hist-tabs" id="histTabs"></div>
+    <div class="hist-list" id="histList"></div>
+    <div class="gap-section" id="gapSection" style="display:none">
+      <div class="gap-title">📊 各家得分差对比</div>
+      <div class="gap-table-wrap">
+        <table class="gap-table">
+          <thead id="gapHead"></thead>
+          <tbody id="gapBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var rule = 'lowest';
+  var history = [];
+  var activeTab = 'all';
+  var lastResult = null;
+  var pressureRounds = [];
+
+  var defaults = [
+    {name:'投标人A',price:92},{name:'投标人B',price:88},
+    {name:'投标人C',price:82},{name:'投标人D',price:78},
+    {name:'投标人E',price:65},{name:'投标人F',price:55}
+  ];
+
+  var RULES = {lowest:'最低价法',avg:'平均价贴近法',ratio:'性价比法',iq:'IQR中间价法'};
+  var RULES_SHORT = {lowest:'最低价法',avg:'均值法',ratio:'性价比法',iq:'IQR法'};
+
+  function init() {
+    defaults.forEach(function(d){ addRow(d.name, d.price); });
+    updateRuleExplain();
+    renderPressureControls();
+    renderHistory();
+  }
+
+  function addRow(name, price) {
+    var c = document.getElementById('bidders');
+    var div = document.createElement('div');
+    div.className = 'bidder-row';
+    var n = c.querySelectorAll('.bidder-row').length + 1;
+    div.innerHTML = '<span class=n>'+n+'</span>' +
+      '<input class=name type=text value="'+esc(name)+'" placeholder=名称 style="max-width:120px">' +
+      '<input class=price type=number value="'+(price||'')+'" placeholder="报价(万)" min=0.01 step=0.01 style="max-width:130px">' +
+      '<button class=btn-del onclick="delRow(this)">×</button>';
+    c.appendChild(div);
+    renderPressureControls();
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function(ch) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+    });
+  }
+
+  window.delRow = function(btn) {
+    var rows = document.querySelectorAll('#bidders .bidder-row');
+    if(rows.length <= 2) return;
+    btn.parentElement.remove();
+    rows = document.querySelectorAll('#bidders .bidder-row');
+    rows.forEach(function(r,i){ r.querySelector('.n').textContent = i+1; });
+    renderPressureControls();
+  };
+
+  document.getElementById('addBtn').onclick = function() {
+    addRow('投标人'+(document.querySelectorAll('#bidders .bidder-row').length+1), '');
+  };
+  document.getElementById('calcBtn').onclick = doCalc;
+  document.getElementById('saveBtn').onclick = doSave;
+  document.getElementById('addPressureBtn').onclick = addPressureRound;
+  document.getElementById('clearPressureBtn').onclick = function(){
+    pressureRounds = [];
+    renderPressureRows();
+  };
+  document.getElementById('bidders').addEventListener('input', renderPressureControls);
+  document.getElementById('weight').addEventListener('input', updateRuleExplain);
+  document.getElementById('direction').addEventListener('change', updateRuleExplain);
+
+  document.getElementById('ruleTabs').onclick = function(e) {
+    var tab = e.target.closest && e.target.closest('.rule-tab');
+    if(!tab) return;
+    rule = tab.dataset.rule;
+    [].forEach.call(document.querySelectorAll('.rule-tab'),function(t){ t.classList.remove('active'); });
+    tab.classList.add('active');
+    updateRuleExplain();
+  };
+
+  function updateRuleExplain() {
+    var weight = parseFloat(document.getElementById('weight').value) || 100;
+    var dir = document.getElementById('direction').value;
+    var ruleText = {
+      lowest: {
+        title: '最低价法',
+        formula: '原始分 = 最低有效报价 ÷ 当前报价 × 100',
+        note: '报价越接近最低价，原始分越高；最低有效报价通常拿到 100 分。'
+      },
+      avg: {
+        title: '平均价贴近法',
+        formula: '原始分 = (1 - |当前报价 - 平均价| ÷ 平均价) × 100',
+        note: '越接近所有有效报价的平均价，原始分越高。'
+      },
+      ratio: {
+        title: '性价比法',
+        formula: '原始分 = min(100, 最高限价 ÷ 当前报价 × 50)',
+        note: '报价越低，原始分越高，但最高不超过 100 分。'
+      },
+      iq: {
+        title: 'IQR中间价法',
+        formula: '原始分 = (1 - |当前报价 - 中位数| ÷ 中位数) × 100',
+        note: '越接近有效报价的中位数，原始分越高。'
+      }
+    }[rule];
+    var directionText = dir === 'higher'
+      ? '当前方向是“价高得分高”，会覆盖上面的规则，按“当前报价 ÷ 最高报价 × 100”计算原始分。'
+      : '当前方向是“价低得分高”，按所选评分规则计算原始分。';
+    document.getElementById('ruleExplain').innerHTML =
+      '<div class="rule-explain-title">'+ruleText.title+'规则说明</div>'+
+      '<div><span class="rule-formula">'+ruleText.formula+'</span></div>'+
+      '<ul>'+
+        '<li>'+ruleText.note+'</li>'+
+        '<li>加权得分 = 原始分 × 价格分权重（当前为 '+weight+'%）。例如原始 99.1、权重 60%，加权后约为 59.5。</li>'+
+        '<li>'+directionText+'</li>'+
+        '<li>低价审查不改变得分，只标记风险：低于均值阈值、次低价阈值或最高限价阈值时会提示“需澄清/重点审查”。</li>'+
+      '</ul>';
+  }
+
+  function readInputs() {
+    var p1 = parseFloat(document.getElementById('p1').value)/100;
+    var p2 = parseFloat(document.getElementById('p2').value)/100;
+    var p3 = parseFloat(document.getElementById('p3').value)/100;
+    var maxP = parseFloat(document.getElementById('maxPrice').value);
+    var w = parseFloat(document.getElementById('weight').value)||100;
+    var dir = document.getElementById('direction').value;
+    var rows = document.querySelectorAll('#bidders .bidder-row');
+    var bids = [];
+    var invalidPrice = false;
+    rows.forEach(function(r){
+      var name = r.querySelector('.name').value.trim() || '投标人';
+      var priceValue = r.querySelector('.price').value.trim();
+      var price = parseFloat(priceValue);
+      if(priceValue && (!isFinite(price) || price <= 0)) invalidPrice = true;
+      if(isFinite(price) && price > 0) bids.push({name:name, price:price});
+    });
+    return {p1:p1,p2:p2,p3:p3,maxP:maxP,w:w,dir:dir,bids:bids,invalidPrice:invalidPrice};
+  }
+
+  function scoreScenario(inp) {
+    var prices = inp.bids.map(function(b){ return b.price; });
+    var sorted = prices.slice().sort(function(a,b){return a-b;});
+    var avg = prices.reduce(function(s,v){return s+v;},0)/prices.length;
+    var min2 = sorted[1];
+    var lowest = sorted[0], highest = sorted[sorted.length-1];
+    var line1 = avg*inp.p1, line2 = min2*inp.p2, line3 = inp.maxP*inp.p3;
+    var reviews = inp.bids.map(function(b){
+      var trig = [];
+      if(b.price < line1) trig.push('①<'+(inp.p1*100).toFixed(1)+'%均值');
+      if(b.price < line2) trig.push('②<'+(inp.p2*100).toFixed(1)+'%次低');
+      if(b.price < line3) trig.push('③<'+(inp.p3*100).toFixed(1)+'%限价');
+      var risk = trig.length >= 2 ? 'danger' : trig.length === 1 ? 'warn' : 'ok';
+      return {name:b.name, price:b.price, trig:trig, risk:risk};
+    });
+    var mid;
+    if(sorted.length % 2 === 0) mid = (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+    else mid = sorted[Math.floor(sorted.length/2)];
+    var scored = inp.bids.map(function(b, idx){
+      var raw;
+      if(rule === 'lowest') raw = (lowest/b.price)*100;
+      else if(rule === 'avg') raw = Math.max(0,(1-Math.abs(b.price-avg)/avg)*100);
+      else if(rule === 'ratio') raw = Math.min(100,(inp.maxP/b.price)*50);
+      else if(rule === 'iq') raw = Math.max(0,(1-Math.abs(b.price-mid)/mid)*100);
+      if(inp.dir === 'higher') raw = (b.price/highest)*100;
+      var wscore = Math.round(raw*inp.w/100*100)/100;
+      return {idx:idx,name:b.name,price:b.price,raw:Math.round(raw*100)/100,wscore:wscore,risk:reviews[idx].risk};
+    });
+    scored.sort(function(a,b){return b.raw-a.raw;});
+    scored.forEach(function(s,i){s.rank=i+1;});
+    return {prices:prices,sorted:sorted,avg:avg,min2:min2,lowest:lowest,highest:highest,mid:mid,reviews:reviews,scored:scored};
+  }
+
+  function renderPressureControls() {
+    var currentA = document.getElementById('pressureA').value;
+    var currentB = document.getElementById('pressureB').value;
+    var currentC = document.getElementById('pressureC').value;
+    var inp = readInputs();
+    var html = inp.bids.map(function(b, i){
+      return '<option value="'+i+'">'+(i+1)+'. '+esc(b.name)+'</option>';
+    }).join('');
+    ['pressureA','pressureB','pressureC'].forEach(function(id){
+      document.getElementById(id).innerHTML = html;
+    });
+    document.getElementById('pressureA').value = currentA || '0';
+    document.getElementById('pressureB').value = currentB || '1';
+    document.getElementById('pressureC').value = currentC || '2';
+  }
+
+  function addPressureRound() {
+    renderPressureControls();
+    var inp = readInputs();
+    if(inp.invalidPrice){ alert('报价必须大于 0'); return; }
+    if(!isFinite(inp.maxP) || inp.maxP <= 0){ alert('最高限价必须大于 0'); return; }
+    if(inp.bids.length < 3){ alert('至少需要3个有效投标报价，才能设置A、B、C'); return; }
+
+    var aIdx = parseInt(document.getElementById('pressureA').value, 10);
+    var bIdx = parseInt(document.getElementById('pressureB').value, 10);
+    var cIdx = parseInt(document.getElementById('pressureC').value, 10);
+    var aPrice = parseFloat(document.getElementById('pressurePrice').value);
+    if(aIdx===bIdx || aIdx===cIdx || bIdx===cIdx){ alert('A、B、C 需要选择不同投标人'); return; }
+    if(!isFinite(aPrice) || aPrice <= 0){ alert('A 本轮报价必须大于 0'); return; }
+
+    var scenarioInp = {
+      p1: inp.p1, p2: inp.p2, p3: inp.p3, maxP: inp.maxP, w: inp.w, dir: inp.dir,
+      bids: inp.bids.map(function(b){ return {name:b.name, price:b.price}; })
+    };
+    scenarioInp.bids[aIdx].price = aPrice;
+    var scenario = scoreScenario(scenarioInp);
+    var bScore = scenario.scored.find(function(s){return s.idx===bIdx;});
+    var cScore = scenario.scored.find(function(s){return s.idx===cIdx;});
+    var winner = scenario.scored[0];
+    var gap = cScore.wscore - bScore.wscore;
+    pressureRounds.push({
+      round: pressureRounds.length + 1,
+      aName: scenarioInp.bids[aIdx].name,
+      bName: scenarioInp.bids[bIdx].name,
+      cName: scenarioInp.bids[cIdx].name,
+      aPrice: aPrice,
+      bScore: bScore.wscore,
+      cScore: cScore.wscore,
+      gap: gap,
+      winner: winner.name,
+      aRisk: scenario.reviews[aIdx].risk
+    });
+    document.getElementById('pressurePrice').value = '';
+    renderPressureRows();
+  }
+
+  function riskText(risk) {
+    if(risk === 'danger') return '<span class="chip danger">重点审查</span>';
+    if(risk === 'warn') return '<span class="chip warn">需澄清</span>';
+    return '<span class="chip ok">正常</span>';
+  }
+
+  function renderPressureRows() {
+    var body = document.getElementById('pressureRows');
+    if(!pressureRounds.length) {
+      body.innerHTML = '<tr><td colspan="7" style="color:#94a3b8;text-align:center;padding:18px;">暂无分析轮次</td></tr>';
+      return;
+    }
+    body.innerHTML = pressureRounds.map(function(r){
+      var gapClass = r.gap > 0 ? 'gap-pos' : r.gap < 0 ? 'gap-neg' : 'gap-flat';
+      var gapText = (r.gap > 0 ? '+' : '') + r.gap.toFixed(2);
+      return '<tr>'+
+        '<td>第'+r.round+'轮</td>'+
+        '<td>'+esc(r.aName)+' '+r.aPrice.toFixed(2)+'</td>'+
+        '<td>'+esc(r.bName)+' '+r.bScore.toFixed(2)+'</td>'+
+        '<td>'+esc(r.cName)+' '+r.cScore.toFixed(2)+'</td>'+
+        '<td><span class="'+gapClass+'">'+gapText+'</span></td>'+
+        '<td>'+esc(r.winner)+'</td>'+
+        '<td>'+riskText(r.aRisk)+'</td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  function doCalc() {
+    var inp = readInputs();
+    if(inp.invalidPrice){ alert('报价必须大于 0'); return; }
+    if(!isFinite(inp.maxP) || inp.maxP <= 0){ alert('最高限价必须大于 0'); return; }
+    if(inp.bids.length < 2){ alert('至少需要2个有效投标报价'); return; }
+
+    var prices = inp.bids.map(function(b){ return b.price; });
+    var sorted = prices.slice().sort(function(a,b){return a-b;});
+    var avg = prices.reduce(function(s,v){return s+v;},0)/prices.length;
+    var min2 = sorted[1];
+    var lowest = sorted[0], highest = sorted[sorted.length-1];
+    var line1 = avg*inp.p1, line2 = min2*inp.p2, line3 = inp.maxP*inp.p3;
+
+    // 低价审查
+    var reviews = inp.bids.map(function(b){
+      var trig = [];
+      if(b.price < line1) trig.push('①<'+(inp.p1*100).toFixed(1)+'%均值');
+      if(b.price < line2) trig.push('②<'+(inp.p2*100).toFixed(1)+'%次低');
+      if(b.price < line3) trig.push('③<'+(inp.p3*100).toFixed(1)+'%限价');
+      var risk = trig.length >= 2 ? 'danger' : trig.length === 1 ? 'warn' : 'ok';
+      return {name:b.name, price:b.price, trig:trig, risk:risk};
+    });
+    var dangerCount = reviews.filter(function(r){return r.risk==='danger';}).length;
+
+    // 统计数字
+    var statsHtml = '<div class=stat-box>'+
+      '<div class=val>'+avg.toFixed(2)+'</div><div class=lbl>均价(万)</div></div>'+
+      '<div class=stat-box>'+
+      '<div class=val>'+min2.toFixed(2)+'</div><div class=lbl>次低价(万)</div></div>'+
+      '<div class=stat-box>'+
+      '<div class=val>'+lowest.toFixed(2)+'</div><div class=lbl>最低价(万)</div></div>'+
+      '<div class="stat-box'+(dangerCount>0?' danger':'')+'">'+
+      '<div class=val>'+dangerCount+'</div><div class=lbl>高风险数</div></div>';
+    document.getElementById('metaStats').innerHTML = statsHtml;
+
+    // 审查表格
+    var t = '<table class=review-table><thead><tr><th>投标人</th><th>报价</th><th>触发条件</th><th>风险</th></tr></thead><tbody>';
+    reviews.forEach(function(r){
+      var badge = r.risk==='ok'?'ok':r.risk==='danger'?'danger':'warn';
+      var lvl = r.risk==='ok'?'✅ 正常':r.risk==='danger'?'🚨 重点审查':'⚠️ 需澄清';
+      var chips = r.trig.length ? r.trig.map(function(x){return '<span class="chip warn">'+esc(x)+'</span>';}).join('') : '<span class="chip ok">无触发</span>';
+      t += '<tr><td><strong>'+esc(r.name)+'</strong></td><td><strong>'+r.price.toFixed(2)+'万</strong></td><td>'+chips+'</td><td><span class="chip '+badge+'">'+lvl+'</span></td></tr>';
+    });
+    t += '</tbody></table>';
+    document.getElementById('reviewTable').innerHTML = t;
+
+    // 价格分
+    var mid;
+    if(sorted.length % 2 === 0) mid = (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+    else mid = sorted[Math.floor(sorted.length/2)];
+
+    var scored = inp.bids.map(function(b, idx){
+      var raw;
+      if(rule === 'lowest') raw = (lowest/b.price)*100;
+      else if(rule === 'avg') raw = Math.max(0,(1-Math.abs(b.price-avg)/avg)*100);
+      else if(rule === 'ratio') raw = Math.min(100,(inp.maxP/b.price)*50);
+      else if(rule === 'iq') raw = Math.max(0,(1-Math.abs(b.price-mid)/mid)*100);
+      if(inp.dir === 'higher') raw = (b.price/highest)*100;
+      var wscore = Math.round(raw*inp.w/100*100)/100;
+      var rev = reviews[idx];
+      return {name:b.name,price:b.price,raw:Math.round(raw*100)/100,wscore:wscore,risk:rev?rev.risk:null};
+    });
+    scored.sort(function(a,b){return b.raw-a.raw;});
+    scored.forEach(function(s,i){s.rank=i+1;});
+    lastResult = {scored:scored,inp:inp,avg:avg,mid:mid,lowest:lowest,highest:highest};
+
+    // 元信息
+    var meta = '<span><strong>规则：</strong><span class="chip chip-blue">'+RULES[rule]+'</span></span>' +
+      '<span><strong>权重：</strong>'+inp.w+'%</span>' +
+      '<span><strong>最低：</strong>'+lowest.toFixed(2)+'万</span>' +
+      '<span><strong>最高：</strong>'+highest.toFixed(2)+'万</span>' +
+      '<span><strong>均值：</strong>'+avg.toFixed(2)+'万</span>';
+    if(rule==='iq') meta += '<span><strong>IQR中位数：</strong>'+mid.toFixed(2)+'万</span>';
+    document.getElementById('scoreMeta').innerHTML = meta;
+
+    // 评分卡片
+    var rankBadge = ['🥇','🥈','🥉','#4','#5','#6','#7','#8'];
+    var cardClass = ['rank-1','rank-2','rank-3','other','other','other','other','other'];
+    var gHtml = '';
+    scored.forEach(function(s,i){
+      var ri = Math.min(i,7);
+      var riskTag = s.risk==='danger'?'<span class="risk-tag danger">⚠️重点审查</span>':s.risk==='warn'?'<span class="risk-tag warn">需澄清</span>':'';
+      gHtml += '<div class="score-card '+cardClass[ri]+'">'+
+        '<div class=top-badge>'+rankBadge[ri]+'</div>'+
+        '<div class=score-name><strong>'+esc(s.name)+'</strong></div>'+
+        '<div class=score-price>'+s.price.toFixed(2)+'万 '+riskTag+'</div>'+
+        '<div class=score-big>'+s.wscore.toFixed(1)+'</div>'+
+        '<div class=score-raw>原始 '+s.raw.toFixed(1)+' × '+inp.w+'%</div>'+
+        '<span class=score-rank>第'+(i+1)+'名</span>'+
+      '</div>';
+    });
+    document.getElementById('scoreGrid').innerHTML = gHtml;
+
+    // 低标警告
+    var warnHtml = '';
+    if(scored[0] && scored[0].risk==='danger') {
+      warnHtml = '<div class=low-warn><span class=icon>⚠️</span><span><strong>'+esc(scored[0].name)+'</strong>（加权分 '+scored[0].wscore.toFixed(1)+'分）排名第1，但触发多条低价审查条件，建议重点审查其成本合理性。</span></div>';
+    }
+    document.getElementById('scoreWarn').innerHTML = warnHtml;
+
+    document.getElementById('resultSection').style.display = 'block';
+    renderHistory();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function doSave() {
+    if(!lastResult) { alert('请先点击"计算结果"'); return; }
+    var name = document.getElementById('roundName').value.trim() || ('第'+(history.length+1)+'轮');
+    var scored = lastResult.scored;
+    var inp = lastResult.inp;
+    var entry = {
+      id: Date.now(),
+      name: name,
+      rule: rule,
+      weight: inp.w,
+      p1: Math.round(inp.p1*100),
+      p2: Math.round(inp.p2*100),
+      p3: Math.round(inp.p3*100),
+      maxP: inp.maxP,
+      bids: scored.map(function(b){ return {name:b.name,price:b.price,raw:b.raw,wscore:b.wscore,rank:b.rank}; }),
+      savedAt: new Date().toLocaleString('zh-CN')
+    };
+    history.unshift(entry);
+    if(history.length > 20) history = history.slice(0,20);
+    document.getElementById('roundName').value = '';
+    renderHistory();
+    var btn = document.getElementById('saveBtn');
+    var tip = document.getElementById('saveTip');
+    btn.disabled = true;
+    btn.textContent = '已保存 ✓';
+    tip.textContent = '已保存为"'+name+'"，共'+history.length+'条';
+    setTimeout(function(){
+      btn.disabled = false;
+      btn.textContent = '💾 保存到本页历史';
+      tip.textContent = '';
+    }, 2500);
+  }
+
+  function renderHistory() {
+    var unique = [];
+    history.forEach(function(h){
+      var m = h.name.match(/^([^\d]+)/);
+      var prefix = m ? m[1].trim() : h.name;
+      if(prefix && unique.indexOf(prefix)===-1) unique.push(prefix);
+    });
+    var tabs = ['<div class="hist-tab'+(activeTab==='all'?' active':'')+'" onclick="switchTab(\'all\')">全部 <span class=cnt>'+history.length+'</span></div>'];
+    unique.slice(0,7).forEach(function(n){
+      tabs.push('<div class="hist-tab'+(activeTab===n?' active':'')+'" onclick="switchTab(\''+esc(n)+'\')">'+esc(n)+'</div>');
+    });
+    document.getElementById('histTabs').innerHTML = tabs.join('');
+
+    var filtered = activeTab==='all' ? history : history.filter(function(h){ return h.name.indexOf(activeTab)!==-1; });
+
+    if(!history.length) {
+      document.getElementById('histList').innerHTML = '<div class=hist-empty>暂无历史记录<div class=sub>保存后仅在当前页面保留，刷新后自动清空</div></div>';
+    } else {
+      document.getElementById('histList').innerHTML = filtered.map(function(h){
+        var chips = h.bids.map(function(b){
+          var cls = b.rank===1?' top':(h.bids[0] && b.wscore < h.bids[0].wscore*0.8?' warn':'');
+          return '<span class="hist-score-chip'+cls+'">'+esc(b.name)+' '+b.wscore.toFixed(1)+'分</span>';
+        }).join('');
+        return '<div class=hist-item>'+
+          '<div class=hist-meta>'+
+            '<span class=hist-name>'+esc(h.name)+'</span>'+
+          '</div>'+
+          '<div class=hist-detail>'+
+            '<span class="chip chip-blue">'+RULES[h.rule]+'</span>'+
+            '<span>权重'+h.weight+'%</span>'+
+            '<span>'+h.savedAt+'</span>'+
+          '</div>'+
+          '<div class=hist-scores>'+chips+'</div>'+
+          '<div class=hist-actions>'+
+            '<button class=btn-load onclick="loadHist('+h.id+')">📂 加载</button>'+
+            '<button class=btn-del onclick="delHist('+h.id+')">删除</button>'+
+          '</div>'+
+        '</div>';
+      }).join('');
+    }
+    renderGapTable();
+  }
+
+  window.switchTab = function(t){ activeTab=t; renderHistory(); };
+  window.loadHist = function(id){
+    var h = history.find(function(x){return x.id===id;});
+    if(!h) return;
+    document.getElementById('weight').value = h.weight;
+    document.getElementById('maxPrice').value = h.maxP;
+    document.getElementById('p1').value = h.p1;
+    document.getElementById('p2').value = h.p2;
+    document.getElementById('p3').value = h.p3;
+    rule = h.rule;
+    [].forEach.call(document.querySelectorAll('.rule-tab'),function(t){
+      t.classList.toggle('active', t.dataset.rule===rule);
+    });
+    var c = document.getElementById('bidders');
+    c.innerHTML = '';
+    h.bids.forEach(function(b,i){
+      var div = document.createElement('div');
+      div.className = 'bidder-row';
+      div.innerHTML = '<span class=n>'+(i+1)+'</span>'+
+        '<input class=name type=text value="'+esc(b.name)+'" placeholder=名称 style="max-width:120px">'+
+        '<input class=price type=number value="'+b.price+'" placeholder="报价(万)" min=0.01 step=0.01 style="max-width:130px">'+
+        '<button class=btn-del onclick="delRow(this)">×</button>';
+      c.appendChild(div);
+    });
+    renderPressureControls();
+    window.scrollTo({top:0,behavior:'smooth'});
+    doCalc();
+  };
+  window.delHist = function(id){
+    history = history.filter(function(h){return h.id!==id;});
+    renderHistory();
+  };
+
+  function renderGapTable() {
+    var sec = document.getElementById('gapSection');
+    if(!history.length){sec.style.display='none';return;}
+    sec.style.display='block';
+    var rounds = history.slice(0,6);
+    var hd = ['<tr><th>投标人</th>'];
+    rounds.forEach(function(h){ hd.push('<th>'+esc(h.name)+'<br><span style="font-size:10px;color:#94a3b8;font-weight:normal">'+RULES_SHORT[h.rule]+'</span></th>'); });
+    hd.push('</tr>');
+    document.getElementById('gapHead').innerHTML = hd.join('');
+
+    var allNames = [];
+    history.forEach(function(h){h.bids.forEach(function(b){if(allNames.indexOf(b.name)===-1)allNames.push(b.name);});});
+
+    var dc = ['','rd1','rd2','rd3','rdn','rdn','rdn','rdn'];
+    var bc = ['','g','s','b','n','n','n','n'];
+    var bgC = ['','#fef3c7','#f1f5f9','#fef3c7','#f9fafb','#f9fafb','#f9fafb','#f9fafb'];
+
+    var rows = [];
+    allNames.forEach(function(name){
+      var cells = ['<td><strong>'+esc(name)+'</strong></td>'];
+      rounds.forEach(function(h){
+        var b = h.bids.find(function(x){return x.name===name;});
+        if(!b){cells.push('<td style="color:#cbd5e1">—</td>');return;}
+        var top = h.bids[0];
+        var gap = top.wscore - b.wscore;
+        var barW = top.wscore>0 ? Math.max(b.wscore/top.wscore*100,5) : 5;
+        var ri = Math.min(b.rank-1,7);
+        var diffCls = gap<0.5?'diff-safe':gap<3?'diff-warn':'diff-danger';
+        var barBg = {g:'#fbbf24',s:'#94a3b8',b:'#d97706',n:'#3b82f6'}[bc[ri]];
+        cells.push('<td style="background:'+bgC[ri]+'">'+
+          '<span class="rank-dot '+dc[ri]+'">'+b.rank+'</span>'+
+          '<span class=gap-score>'+b.wscore.toFixed(1)+'</span>'+
+          '<div class=gap-bar-wrap><div class=gap-bar style="width:'+barW+'%;background:'+barBg+'"></div></div>'+
+          '<div class="gap-diff '+diffCls+'">'+(gap>0?'-':gap<0?'+':'±')+Math.abs(gap).toFixed(1)+'</div>'+
+        '</td>');
+      });
+      rows.push('<tr>'+cells.join('')+'</tr>');
+    });
+    document.getElementById('gapBody').innerHTML = rows.join('');
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

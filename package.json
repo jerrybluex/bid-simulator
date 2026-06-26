@@ -1,0 +1,13 @@
+{
+  "name": "bid-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A browser-based bid price scoring simulator.",
+  "scripts": {
+    "test": "node bid_simulator_regression_test.js index.html"
+  },
+  "devDependencies": {
+    "playwright": "^1.57.0"
+  }
+}
+
