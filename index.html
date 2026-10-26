@@ -16,64 +16,27 @@
   }
   .container { max-width: 960px; margin: 0 auto; }
 
-  /* Header */
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 28px;
-  }
+  .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
   .header-icon {
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     background: linear-gradient(135deg, #3b82f6, #6366f1);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
   }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 800;
-    color: #1a1d2e;
-    letter-spacing: -0.5px;
-  }
-  .header p {
-    font-size: 13px;
-    color: #8892a4;
-    margin-top: 2px;
-    font-weight: 400;
-  }
+  .header h1 { font-size: 22px; font-weight: 800; color: #1a1d2e; letter-spacing: -0.5px; }
+  .header p { font-size: 13px; color: #8892a4; margin-top: 2px; }
 
-  /* Section labels */
   .sec-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
   }
-  .sec-label .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-  }
-  .sl-blue .dot { background: #3b82f6; }
-  .sl-blue { color: #3b82f6; }
-  .sl-purple .dot { background: #8b5cf6; }
-  .sl-purple { color: #8b5cf6; }
-  .sl-orange .dot { background: #f97316; }
-  .sl-orange { color: #f97316; }
+  .sec-label .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .sl-blue .dot { background: #3b82f6; } .sl-blue { color: #3b82f6; }
+  .sl-purple .dot { background: #8b5cf6; } .sl-purple { color: #8b5cf6; }
+  .sl-orange .dot { background: #f97316; } .sl-orange { color: #f97316; }
 
-  /* Cards */
   .card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 22px 24px;
-    margin-bottom: 14px;
+    background: #fff; border-radius: 16px; padding: 22px 24px; margin-bottom: 14px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
     border: 1px solid rgba(0,0,0,0.05);
   }
@@ -81,59 +44,26 @@
   .card-accent-purple { border-top: 3px solid #8b5cf6; }
   .card-accent-orange { border-left: 4px solid #f97316; }
 
-  /* Inputs */
-  .input-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-  }
-  .input-group {
-    flex: 1;
-    min-width: 130px;
-  }
+  .input-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 130px; }
   .input-group label {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    color: #8892a4;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    display: block; font-size: 11px; font-weight: 600; color: #8892a4;
+    margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;
   }
   input, select {
-    width: 100%;
-    padding: 10px 13px;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background: #fafbfc;
+    width: 100%; padding: 10px 13px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+    font-size: 14px; font-family: inherit; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; background: #fafbfc;
   }
   input:focus, select:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
-    background: #fff;
+    border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); background: #fff;
   }
   input[type=number] { font-size: 16px; font-weight: 600; }
 
-  /* Buttons */
   .btn {
-    background: #3b82f6;
-    color: #fff;
-    border: none;
-    padding: 9px 18px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    background: #3b82f6; color: #fff; border: none; padding: 9px 18px; border-radius: 10px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    font-family: inherit; display: inline-flex; align-items: center; gap: 6px;
   }
   .btn:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
   .btn:active { transform: translateY(0); }
@@ -145,250 +75,126 @@
   .btn-load { background: #eff6ff; color: #3b82f6; padding: 5px 10px; border-radius: 7px; font-size: 12px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
   .btn-load:hover { background: #dbeafe; }
 
-  /* Tabs */
   .rule-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
   .rule-tab {
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    background: #f1f5f9;
-    color: #64748b;
-    border: 1.5px solid transparent;
-    transition: all 0.2s;
-    font-family: inherit;
+    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+    background: #f1f5f9; color: #64748b; border: 1.5px solid transparent;
+    transition: all 0.2s; font-family: inherit;
   }
   .rule-tab.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
   .rule-tab:hover:not(.active) { background: #e2e8f0; }
 
-  /* Bidder rows */
   .bidders { margin-bottom: 12px; }
-  .bidder-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 7px;
-    align-items: center;
-  }
-  .bidder-row .n {
-    width: 28px;
-    text-align: center;
-    font-size: 13px;
-    color: #94a3b8;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
+  .bidder-row { display: flex; gap: 8px; margin-bottom: 7px; align-items: center; }
+  .bidder-row .n { width: 28px; text-align: center; font-size: 13px; color: #94a3b8; font-weight: 600; flex-shrink: 0; }
   .bidder-row input.name { max-width: 120px; }
   .bidder-row input.price { max-width: 130px; }
 
-  /* Meta stats */
-  .meta-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+  .meta-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
   .stat-box {
-    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-    border-radius: 12px;
-    padding: 12px 14px;
-    text-align: center;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius: 12px;
+    padding: 12px 14px; text-align: center;
   }
-  .stat-box .val {
-    font-size: 20px;
-    font-weight: 800;
-    color: #1e293b;
-    line-height: 1;
-  }
-  .stat-box .lbl {
-    font-size: 11px;
-    color: #94a3b8;
-    margin-top: 4px;
-    font-weight: 500;
-  }
+  .stat-box .val { font-size: 20px; font-weight: 800; color: #1e293b; line-height: 1; }
+  .stat-box .lbl { font-size: 11px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
   .stat-box.danger .val { color: #dc2626; }
 
-  /* Score grid */
-  .score-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 12px;
+  /* 触发线 */
+  .trigger-box {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 14px; font-size: 12px; color: #475569; line-height: 1.9;
   }
+  .trigger-box .tline { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .trigger-box .tlabel { font-weight: 800; color: #334155; }
+  .trigger-box .tval { font-weight: 800; color: #dc2626; font-size: 13px; }
+  .trigger-box .thint { color: #94a3b8; }
+
+  .score-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
   .score-card {
-    background: #f9fafb;
-    border-radius: 14px;
-    padding: 16px;
-    border: 1.5px solid #e2e8f0;
+    background: #f9fafb; border-radius: 14px; padding: 16px; border: 1.5px solid #e2e8f0;
     transition: all 0.25s;
   }
   .score-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
   .score-card.rank-1 { border-color: #fbbf24; background: #fffbeb; }
   .score-card.rank-2 { border-color: #94a3b8; background: #f8fafc; }
   .score-card.rank-3 { border-color: #d97706; background: #fffbeb; }
-  .score-card .top-badge {
-    font-size: 10px;
-    font-weight: 800;
-    padding: 2px 7px;
-    border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 6px;
-  }
+  .score-card .top-badge { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px; display: inline-block; margin-bottom: 6px; }
   .rank-1 .top-badge { background: #fef3c7; color: #92400e; }
   .rank-2 .top-badge { background: #f1f5f9; color: #475569; }
   .rank-3 .top-badge { background: #fef3c7; color: #92400e; }
   .score-name { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
   .score-price { font-size: 12px; color: #94a3b8; margin-bottom: 10px; font-weight: 500; }
-  .score-big {
-    font-size: 30px;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
+  .score-big { font-size: 30px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
   .rank-1 .score-big { color: #15803d; }
   .rank-2 .score-big { color: #475569; }
   .rank-3 .score-big { color: #92400e; }
   .score-raw { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
-  .score-rank {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    display: inline-block;
-  }
+  .score-rank { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; display: inline-block; }
   .rank-1 .score-rank { background: #dcfce7; color: #15803d; }
   .rank-2 .score-rank { background: #f1f5f9; color: #475569; }
   .rank-3 .score-rank { background: #fef3c7; color: #92400e; }
   .other .score-rank { background: #f1f5f9; color: #64748b; }
-  .score-tags { margin-top: 6px; }
-  .risk-tag {
-    display: inline-block;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 700;
-  }
+  .risk-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; }
   .risk-tag.danger { background: #fee2e2; color: #dc2626; }
   .risk-tag.warn { background: #fff3cd; color: #b45309; }
 
-  /* Review table */
   .review-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
   .review-table th {
-    background: #f8fafc;
-    padding: 8px 12px;
-    text-align: left;
-    font-weight: 700;
-    color: #64748b;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-radius: 8px;
+    background: #f8fafc; padding: 8px 12px; text-align: left; font-weight: 700;
+    color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 8px;
   }
   .review-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
   .review-table tr:last-child td { border-bottom: none; }
   .review-table tr:hover td { background: #fafbff; }
 
-  /* Tags */
   .chip { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 600; }
   .chip.ok { background: #dcfce7; color: #15803d; }
   .chip.warn { background: #fff3cd; color: #b45309; }
   .chip.danger { background: #fee2e2; color: #dc2626; }
   .chip-blue { background: #eff6ff; color: #3b82f6; }
 
-  /* Low bid warning */
   .low-warn {
-    background: #fff3cd;
-    border: 1px solid #fcd34d;
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #92400e;
-    margin-top: 12px;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
+    background: #fff3cd; border: 1px solid #fcd34d; border-radius: 10px; padding: 10px 14px;
+    font-size: 13px; color: #92400e; margin-top: 12px; display: flex; align-items: flex-start; gap: 8px;
   }
   .low-warn .icon { font-size: 16px; flex-shrink: 0; }
 
-  /* Save bar */
-  .save-bar {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
+  .save-bar { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
   .save-tip { font-size: 13px; color: #22c55e; font-weight: 700; }
 
-  /* History */
-  .hist-card { }
   .hist-tabs { display: flex; gap: 7px; margin-bottom: 14px; flex-wrap: wrap; }
   .hist-tab {
-    padding: 5px 13px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    background: #f1f5f9;
-    color: #64748b;
-    border: 1.5px solid transparent;
-    transition: all 0.2s;
+    padding: 5px 13px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+    background: #f1f5f9; color: #64748b; border: 1.5px solid transparent; transition: all 0.2s;
   }
   .hist-tab.active { background: #8b5cf6; color: #fff; border-color: #8b5cf6; }
   .hist-tab:hover:not(.active) { background: #e2e8f0; }
-  .hist-tab .cnt {
-    background: rgba(0,0,0,0.1);
-    font-size: 10px;
-    padding: 1px 5px;
-    border-radius: 10px;
-    margin-left: 4px;
-  }
+  .hist-tab .cnt { background: rgba(0,0,0,0.1); font-size: 10px; padding: 1px 5px; border-radius: 10px; margin-left: 4px; }
   .hist-tab.active .cnt { background: rgba(255,255,255,0.3); }
   .hist-list { display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; }
   .hist-item {
-    background: #f9fafb;
-    border-radius: 12px;
-    padding: 14px 16px;
-    border: 1.5px solid #e2e8f0;
-    transition: all 0.2s;
+    background: #f9fafb; border-radius: 12px; padding: 14px 16px;
+    border: 1.5px solid #e2e8f0; transition: all 0.2s;
   }
   .hist-item:hover { border-color: #8b5cf6; box-shadow: 0 2px 8px rgba(139,92,246,0.08); }
   .hist-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
   .hist-name { font-weight: 700; font-size: 14px; color: #1e293b; }
   .hist-detail { font-size: 11px; color: #94a3b8; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
   .hist-scores { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
-  .hist-score-chip {
-    padding: 3px 9px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    background: #f1f5f9;
-    color: #475569;
-  }
+  .hist-score-chip { padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #f1f5f9; color: #475569; }
   .hist-score-chip.top { background: #dcfce7; color: #15803d; }
   .hist-score-chip.warn { background: #fee2e2; color: #dc2626; }
   .hist-actions { display: flex; gap: 5px; }
-  .hist-empty {
-    text-align: center;
-    padding: 40px;
-    color: #94a3b8;
-    font-size: 14px;
-  }
+  .hist-empty { text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; }
   .hist-empty .sub { font-size: 12px; margin-top: 6px; }
 
-  /* Gap table */
   .gap-section { margin-top: 18px; }
   .gap-title { font-weight: 700; font-size: 14px; color: #1e293b; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
   .gap-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #e2e8f0; }
   .gap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .gap-table th {
-    background: #f8fafc;
-    padding: 9px 12px;
-    font-weight: 700;
-    text-align: center;
-    color: #64748b;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    background: #f8fafc; padding: 9px 12px; font-weight: 700; text-align: center;
+    color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
     border-bottom: 1px solid #e2e8f0;
   }
   .gap-table th:first-child { text-align: left; }
@@ -397,17 +203,8 @@
   .gap-table tr:last-child td { border-bottom: none; }
   .gap-table tr:hover td { background: #fafbff; }
   .rank-dot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    font-size: 9px;
-    font-weight: 800;
-    color: #fff;
-    margin-right: 4px;
-    vertical-align: middle;
+    display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px;
+    border-radius: 50%; font-size: 9px; font-weight: 800; color: #fff; margin-right: 4px; vertical-align: middle;
   }
   .rd1 { background: #fbbf24; color: #92400e; }
   .rd2 { background: #94a3b8; color: #fff; }
@@ -417,98 +214,39 @@
   .gap-bar-wrap { background: #e2e8f0; border-radius: 3px; height: 5px; width: 65px; display: inline-block; vertical-align: middle; margin: 0 4px; overflow: hidden; }
   .gap-bar { height: 100%; border-radius: 3px; }
   .gap-diff { font-size: 10px; margin-top: 2px; }
-  .diff-safe { color: #15803d; }
-  .diff-warn { color: #d97706; }
-  .diff-danger { color: #dc2626; }
+  .diff-safe { color: #15803d; } .diff-warn { color: #d97706; } .diff-danger { color: #dc2626; }
 
-  /* Manual pressure analysis */
-  .pressure-note {
-    font-size: 12px;
-    color: #64748b;
-    line-height: 1.7;
-    margin-bottom: 12px;
-  }
-  .pressure-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: end;
-    margin-bottom: 12px;
-  }
-  .pressure-table-wrap {
-    overflow-x: auto;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-  }
-  .pressure-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-  }
+  .pressure-note { font-size: 12px; color: #64748b; line-height: 1.7; margin-bottom: 12px; }
+  .pressure-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; margin-bottom: 12px; }
+  .pressure-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #e2e8f0; }
+  .pressure-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .pressure-table th {
-    background: #f8fafc;
-    padding: 9px 10px;
-    text-align: left;
-    color: #64748b;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    background: #f8fafc; padding: 9px 10px; text-align: left; color: #64748b;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
     border-bottom: 1px solid #e2e8f0;
   }
-  .pressure-table td {
-    padding: 9px 10px;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
-    white-space: nowrap;
-  }
+  .pressure-table td { padding: 9px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; white-space: nowrap; }
   .pressure-table tr:last-child td { border-bottom: none; }
   .gap-pos { color: #15803d; font-weight: 800; }
   .gap-neg { color: #dc2626; font-weight: 800; }
   .gap-flat { color: #64748b; font-weight: 800; }
 
   .rule-explain {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 12px 14px;
-    margin-top: 4px;
-    color: #475569;
-    font-size: 12px;
-    line-height: 1.7;
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 12px 14px; margin-top: 4px; color: #475569; font-size: 12px; line-height: 1.7;
   }
-  .rule-explain-title {
-    font-size: 13px;
-    font-weight: 800;
-    color: #1e293b;
-    margin-bottom: 4px;
-  }
-  .rule-formula {
-    display: inline-block;
-    padding: 2px 7px;
-    border-radius: 6px;
-    background: #eff6ff;
-    color: #2563eb;
-    font-weight: 700;
-    margin: 0 2px;
-  }
-  .rule-explain ul {
-    margin: 6px 0 0 16px;
-  }
+  .rule-explain-title { font-size: 13px; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+  .rule-formula { display: inline-block; padding: 2px 7px; border-radius: 6px; background: #eff6ff; color: #2563eb; font-weight: 700; margin: 0 2px; }
+  .rule-explain ul { margin: 6px 0 0 16px; }
 
-  /* Meta info line */
   .meta-line { font-size: 12px; color: #94a3b8; margin-bottom: 12px; line-height: 1.8; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
   .meta-line strong { color: #475569; }
 
-  /* Divider */
   hr { border: none; border-top: 1px solid #f1f5f9; margin: 14px 0; }
-
-  /* Scrollbar */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
-  /* Responsive */
   @media (max-width: 600px) {
     .meta-stats { grid-template-columns: repeat(2, 1fr); }
     .score-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
@@ -518,12 +256,11 @@
 <body>
 <div class="container">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-icon">📉</div>
     <div>
       <h1>投标价格模拟器</h1>
-      <p>低价审查 · 价格评分 · 历史对比</p>
+      <p>低价审查 · 价格评分 · 改价推演 · 历史对比</p>
     </div>
   </div>
 
@@ -558,6 +295,7 @@
       <button class="rule-tab" data-rule="avg">平均价贴近法</button>
       <button class="rule-tab" data-rule="ratio">性价比法</button>
       <button class="rule-tab" data-rule="iq">IQR中间价法</button>
+      <button class="rule-tab" data-rule="eval">评标价偏离扣分法</button>
     </div>
     <div class="input-row">
       <div class="input-group" style="max-width:160px;">
@@ -575,7 +313,7 @@
     <div class="rule-explain" id="ruleExplain"></div>
   </div>
 
-  <!-- ③ 投标人 -->
+  <!-- ③ 投标人报价 -->
   <div class="card">
     <div class="sec-label sl-blue"><span class="dot"></span>投标人报价（万元）</div>
     <div class="bidders" id="bidders"></div>
@@ -587,7 +325,7 @@
 
   <!-- ④ 手动改价分析 -->
   <div class="card card-accent-purple">
-    <div class="sec-label sl-purple"><span class="dot"></span>手动改价分析</div>
+    <div class="sec-label sl-purple"><span class="dot" style="background:#8b5cf6"></span>手动改价分析</div>
     <div class="pressure-note">
       选择本轮要改价的对象，再指定低价竞争者和目标对象；每次只手动输入改价对象的报价，系统会重新计算目标对象与低价竞争者的分差。
     </div>
@@ -615,13 +353,8 @@
       <table class="pressure-table">
         <thead>
           <tr>
-            <th>轮次</th>
-            <th>改价报价</th>
-            <th>竞争者得分</th>
-            <th>目标得分</th>
-            <th>目标-竞争分差</th>
-            <th>第一名</th>
-            <th>改价对象审查</th>
+            <th>轮次</th><th>改价报价</th><th>竞争者得分</th><th>目标得分</th>
+            <th>目标-竞争分差</th><th>第一名</th><th>改价对象审查</th>
           </tr>
         </thead>
         <tbody id="pressureRows">
@@ -634,14 +367,13 @@
   <!-- 结果区 -->
   <div id="resultSection" style="display:none">
 
-    <!-- ④ 低价审查 -->
     <div class="card">
       <div class="sec-label sl-blue"><span class="dot"></span>低价审查结果</div>
       <div class="meta-stats" id="metaStats"></div>
+      <div class="trigger-box" id="triggerBox"></div>
       <div id="reviewTable"></div>
     </div>
 
-    <!-- ⑤ 评分结果 -->
     <div class="card card-accent-purple">
       <div class="sec-label sl-purple"><span class="dot" style="background:#8b5cf6"></span>价格评分结果</div>
       <div class="meta-line" id="scoreMeta"></div>
@@ -649,7 +381,7 @@
       <div id="scoreWarn"></div>
       <div class="save-bar">
         <input type="text" id="roundName" placeholder="本轮名称，如：第一轮开标" style="max-width:220px;">
-        <button class="btn btn-green" id="saveBtn">💾 保存到本页历史</button>
+        <button class="btn btn-green" id="saveBtn">💾 保存到历史</button>
         <span class="save-tip" id="saveTip"></span>
       </div>
     </div>
@@ -658,7 +390,7 @@
 
   <!-- ⑥ 历史记录 -->
   <div class="card hist-card card-accent-orange">
-    <div class="sec-label sl-orange"><span class="dot" style="background:#f97316"></span>历史记录（本页临时）</div>
+    <div class="sec-label sl-orange"><span class="dot" style="background:#f97316"></span>历史记录（本地保存）</div>
     <div class="hist-tabs" id="histTabs"></div>
     <div class="hist-list" id="histList"></div>
     <div class="gap-section" id="gapSection" style="display:none">
@@ -677,7 +409,7 @@
 <script>
 (function() {
   var rule = 'lowest';
-  var history = [];
+  var history = JSON.parse(localStorage.getItem('bid_hist_v3') || '[]');
   var activeTab = 'all';
   var lastResult = null;
   var pressureRounds = [];
@@ -688,8 +420,8 @@
     {name:'投标人E',price:65},{name:'投标人F',price:55}
   ];
 
-  var RULES = {lowest:'最低价法',avg:'平均价贴近法',ratio:'性价比法',iq:'IQR中间价法'};
-  var RULES_SHORT = {lowest:'最低价法',avg:'均值法',ratio:'性价比法',iq:'IQR法'};
+  var RULES = {lowest:'最低价法',avg:'平均价贴近法',ratio:'性价比法',iq:'IQR中间价法',eval:'评标价偏离扣分法'};
+  var RULES_SHORT = {lowest:'最低价法',avg:'均值法',ratio:'性价比法',iq:'IQR法',eval:'评标价法'};
 
   function init() {
     defaults.forEach(function(d){ addRow(d.name, d.price); });
@@ -715,6 +447,12 @@
     return String(s).replace(/[&<>"']/g, function(ch) {
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
     });
+  }
+
+  // 评标价规则要求保留3位小数，其余规则1位
+  function fmtScore(v) {
+    if (v === null || v === undefined || isNaN(v)) return '-';
+    return rule === 'eval' ? v.toFixed(3) : v.toFixed(1);
   }
 
   window.delRow = function(btn) {
@@ -772,19 +510,25 @@
         title: 'IQR中间价法',
         formula: '原始分 = (1 - |当前报价 - 中位数| ÷ 中位数) × 100',
         note: '越接近有效报价的中位数，原始分越高。'
+      },
+      eval: {
+        title: '评标价偏离扣分法',
+        formula: '报价得分 K = 30 - [(Q-q) ÷ Q] × 100 × 0.1（q&lt;Q）',
+        note: '评标价 Q：有效投标报价 ≤5 家时取全部算术平均；超过 5 家时去掉一个最高和一个最低后取算术平均。报价高于 Q 时按 K = 30 - [(q-Q) ÷ Q] × 100 × 0.2 扣分。K 最低为 0，保留 3 位小数。'
       }
     }[rule];
     var directionText = dir === 'higher'
-      ? '当前方向是“价高得分高”，会覆盖上面的规则，按“当前报价 ÷ 最高报价 × 100”计算原始分。'
-      : '当前方向是“价低得分高”，按所选评分规则计算原始分。';
+      ? '当前方向是"价高得分高"，会覆盖上面的规则，按"当前报价 ÷ 最高报价 × 100"计算原始分。'
+      : '当前方向是"价低得分高"，按所选评分规则计算原始分。';
+    if (rule === 'eval') directionText = '本规则按评标价 Q 双向扣分，不受"价格分方向"设置影响。';
     document.getElementById('ruleExplain').innerHTML =
-      '<div class="rule-explain-title">'+ruleText.title+'规则说明</div>'+
-      '<div><span class="rule-formula">'+ruleText.formula+'</span></div>'+
+      '<div class=rule-explain-title>'+ruleText.title+'规则说明</div>'+
+      '<div><span class=rule-formula>'+ruleText.formula+'</span></div>'+
       '<ul>'+
         '<li>'+ruleText.note+'</li>'+
-        '<li>加权得分 = 原始分 × 价格分权重（当前为 '+weight+'%）。例如原始 99.1、权重 60%，加权后约为 59.5。</li>'+
+        '<li>加权得分 = 报价得分 K × 价格分权重（当前为 '+weight+'%）。本规则满分 K=30，权重 100% 时加权得分即为 K 分。</li>'+
         '<li>'+directionText+'</li>'+
-        '<li>低价审查不改变得分，只标记风险：低于均值阈值、次低价阈值或最高限价阈值时会提示“需澄清/重点审查”。</li>'+
+        '<li>低价审查不改变得分，只标记风险：低于均值阈值、次低价阈值或最高限价阈值时会提示"需澄清/重点审查"。</li>'+
       '</ul>';
   }
 
@@ -808,20 +552,34 @@
     return {p1:p1,p2:p2,p3:p3,maxP:maxP,w:w,dir:dir,bids:bids,invalidPrice:invalidPrice};
   }
 
+  // 评标价 Q：≤5家取全部有效报价算术平均；>5家去掉一个最高和一个最低后取算术平均
+  function calcEvalPrice(prices) {
+    if (!prices.length) return 0;
+    if (prices.length <= 5) {
+      return prices.reduce(function(s,v){return s+v;},0)/prices.length;
+    }
+    var sorted = prices.slice().sort(function(a,b){return a-b;});
+    var trimmed = sorted.slice(1, sorted.length-1);
+    return trimmed.reduce(function(s,v){return s+v;},0)/trimmed.length;
+  }
+
+  // 统一计算：审查 + 评分。risk 按索引绑定，避免同名投标人串号。
   function scoreScenario(inp) {
     var prices = inp.bids.map(function(b){ return b.price; });
     var sorted = prices.slice().sort(function(a,b){return a-b;});
     var avg = prices.reduce(function(s,v){return s+v;},0)/prices.length;
     var min2 = sorted[1];
     var lowest = sorted[0], highest = sorted[sorted.length-1];
+    var evalPrice = calcEvalPrice(prices);
+    var evalMode = prices.length <= 5 ? '全部有效报价算术平均' : '去掉一个最高和一个最低后的算术平均';
     var line1 = avg*inp.p1, line2 = min2*inp.p2, line3 = inp.maxP*inp.p3;
-    var reviews = inp.bids.map(function(b){
+    var reviews = inp.bids.map(function(b, idx){
       var trig = [];
       if(b.price < line1) trig.push('①<'+(inp.p1*100).toFixed(1)+'%均值');
       if(b.price < line2) trig.push('②<'+(inp.p2*100).toFixed(1)+'%次低');
       if(b.price < line3) trig.push('③<'+(inp.p3*100).toFixed(1)+'%限价');
       var risk = trig.length >= 2 ? 'danger' : trig.length === 1 ? 'warn' : 'ok';
-      return {name:b.name, price:b.price, trig:trig, risk:risk};
+      return {idx:idx, name:b.name, price:b.price, trig:trig, risk:risk};
     });
     var mid;
     if(sorted.length % 2 === 0) mid = (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
@@ -832,13 +590,29 @@
       else if(rule === 'avg') raw = Math.max(0,(1-Math.abs(b.price-avg)/avg)*100);
       else if(rule === 'ratio') raw = Math.min(100,(inp.maxP/b.price)*50);
       else if(rule === 'iq') raw = Math.max(0,(1-Math.abs(b.price-mid)/mid)*100);
-      if(inp.dir === 'higher') raw = (b.price/highest)*100;
-      var wscore = Math.round(raw*inp.w/100*100)/100;
-      return {idx:idx,name:b.name,price:b.price,raw:Math.round(raw*100)/100,wscore:wscore,risk:reviews[idx].risk};
+      else if(rule === 'eval') {
+        // K = 30 - [(Q-q)/Q]×100×0.1（q<Q）; K = 30 - [(q-Q)/Q]×100×0.2（q>Q）; K≥0
+        if (evalPrice > 0) {
+          if (b.price < evalPrice) raw = 30 - ((evalPrice - b.price) / evalPrice) * 100 * 0.1;
+          else if (b.price > evalPrice) raw = 30 - ((b.price - evalPrice) / evalPrice) * 100 * 0.2;
+          else raw = 30;
+        } else {
+          raw = 0;
+        }
+        raw = Math.max(0, raw);
+        raw = Math.round(raw * 1000) / 1000; // 保留3位小数，四舍五入
+      }
+      if(inp.dir === 'higher' && rule !== 'eval') raw = (b.price/highest)*100;
+      var wscore = Math.round(raw*inp.w/100*1000)/1000;
+      return {idx:idx,name:b.name,price:b.price,raw:Math.round(raw*1000)/1000,wscore:wscore,risk:reviews[idx].risk};
     });
     scored.sort(function(a,b){return b.raw-a.raw;});
     scored.forEach(function(s,i){s.rank=i+1;});
-    return {prices:prices,sorted:sorted,avg:avg,min2:min2,lowest:lowest,highest:highest,mid:mid,reviews:reviews,scored:scored};
+    return {
+      prices:prices, sorted:sorted, avg:avg, min2:min2, lowest:lowest, highest:highest, mid:mid,
+      evalPrice:evalPrice, evalMode:evalMode,
+      line1:line1, line2:line2, line3:line3, reviews:reviews, scored:scored
+    };
   }
 
   function renderPressureControls() {
@@ -915,8 +689,8 @@
       return '<tr>'+
         '<td>第'+r.round+'轮</td>'+
         '<td>'+esc(r.aName)+' '+r.aPrice.toFixed(2)+'</td>'+
-        '<td>'+esc(r.bName)+' '+r.bScore.toFixed(2)+'</td>'+
-        '<td>'+esc(r.cName)+' '+r.cScore.toFixed(2)+'</td>'+
+        '<td>'+esc(r.bName)+' '+fmtScore(r.bScore)+'</td>'+
+        '<td>'+esc(r.cName)+' '+fmtScore(r.cScore)+'</td>'+
         '<td><span class="'+gapClass+'">'+gapText+'</span></td>'+
         '<td>'+esc(r.winner)+'</td>'+
         '<td>'+riskText(r.aRisk)+'</td>'+
@@ -930,34 +704,34 @@
     if(!isFinite(inp.maxP) || inp.maxP <= 0){ alert('最高限价必须大于 0'); return; }
     if(inp.bids.length < 2){ alert('至少需要2个有效投标报价'); return; }
 
-    var prices = inp.bids.map(function(b){ return b.price; });
-    var sorted = prices.slice().sort(function(a,b){return a-b;});
-    var avg = prices.reduce(function(s,v){return s+v;},0)/prices.length;
-    var min2 = sorted[1];
-    var lowest = sorted[0], highest = sorted[sorted.length-1];
-    var line1 = avg*inp.p1, line2 = min2*inp.p2, line3 = inp.maxP*inp.p3;
-
-    // 低价审查
-    var reviews = inp.bids.map(function(b){
-      var trig = [];
-      if(b.price < line1) trig.push('①<'+(inp.p1*100).toFixed(1)+'%均值');
-      if(b.price < line2) trig.push('②<'+(inp.p2*100).toFixed(1)+'%次低');
-      if(b.price < line3) trig.push('③<'+(inp.p3*100).toFixed(1)+'%限价');
-      var risk = trig.length >= 2 ? 'danger' : trig.length === 1 ? 'warn' : 'ok';
-      return {name:b.name, price:b.price, trig:trig, risk:risk};
-    });
+    var s = scoreScenario(inp);
+    var reviews = s.reviews;
+    var scored = s.scored;
     var dangerCount = reviews.filter(function(r){return r.risk==='danger';}).length;
 
     // 统计数字
     var statsHtml = '<div class=stat-box>'+
-      '<div class=val>'+avg.toFixed(2)+'</div><div class=lbl>均价(万)</div></div>'+
+      '<div class=val>'+s.avg.toFixed(2)+'</div><div class=lbl>均价(万)</div></div>'+
       '<div class=stat-box>'+
-      '<div class=val>'+min2.toFixed(2)+'</div><div class=lbl>次低价(万)</div></div>'+
+      '<div class=val>'+s.min2.toFixed(2)+'</div><div class=lbl>次低价(万)</div></div>'+
       '<div class=stat-box>'+
-      '<div class=val>'+lowest.toFixed(2)+'</div><div class=lbl>最低价(万)</div></div>'+
+      '<div class=val>'+s.lowest.toFixed(2)+'</div><div class=lbl>最低价(万)</div></div>'+
       '<div class="stat-box'+(dangerCount>0?' danger':'')+'">'+
       '<div class=val>'+dangerCount+'</div><div class=lbl>高风险数</div></div>';
     document.getElementById('metaStats').innerHTML = statsHtml;
+
+    // ★ 触发线：明确显示三个阈值，低于该线才触发
+    var tb = '<div style="font-weight:800;color:#334155;margin-bottom:4px">🔻 触发线（报价低于此线才触发审查）</div>'+
+      '<div class=tline><span class=tlabel>① 低于均价 '+ (inp.p1*100).toFixed(1) +'%</span>'+
+      '<span>均价 '+s.avg.toFixed(2)+'万 × '+(inp.p1*100).toFixed(1)+'% =</span>'+
+      '<span class=tval>≤ '+s.line1.toFixed(2)+' 万</span></div>'+
+      '<div class=tline><span class=tlabel>② 低于次低 '+ (inp.p2*100).toFixed(1) +'%</span>'+
+      '<span>次低价 '+s.min2.toFixed(2)+'万 × '+(inp.p2*100).toFixed(1)+'% =</span>'+
+      '<span class=tval>≤ '+s.line2.toFixed(2)+' 万</span></div>'+
+      '<div class=tline><span class=tlabel>③ 低于限价 '+ (inp.p3*100).toFixed(1) +'%</span>'+
+      '<span>最高限价 '+inp.maxP+'万 × '+(inp.p3*100).toFixed(1)+'% =</span>'+
+      '<span class=tval>≤ '+s.line3.toFixed(2)+' 万</span></div>';
+    document.getElementById('triggerBox').innerHTML = tb;
 
     // 审查表格
     var t = '<table class=review-table><thead><tr><th>投标人</th><th>报价</th><th>触发条件</th><th>风险</th></tr></thead><tbody>';
@@ -970,48 +744,31 @@
     t += '</tbody></table>';
     document.getElementById('reviewTable').innerHTML = t;
 
-    // 价格分
-    var mid;
-    if(sorted.length % 2 === 0) mid = (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
-    else mid = sorted[Math.floor(sorted.length/2)];
-
-    var scored = inp.bids.map(function(b, idx){
-      var raw;
-      if(rule === 'lowest') raw = (lowest/b.price)*100;
-      else if(rule === 'avg') raw = Math.max(0,(1-Math.abs(b.price-avg)/avg)*100);
-      else if(rule === 'ratio') raw = Math.min(100,(inp.maxP/b.price)*50);
-      else if(rule === 'iq') raw = Math.max(0,(1-Math.abs(b.price-mid)/mid)*100);
-      if(inp.dir === 'higher') raw = (b.price/highest)*100;
-      var wscore = Math.round(raw*inp.w/100*100)/100;
-      var rev = reviews[idx];
-      return {name:b.name,price:b.price,raw:Math.round(raw*100)/100,wscore:wscore,risk:rev?rev.risk:null};
-    });
-    scored.sort(function(a,b){return b.raw-a.raw;});
-    scored.forEach(function(s,i){s.rank=i+1;});
-    lastResult = {scored:scored,inp:inp,avg:avg,mid:mid,lowest:lowest,highest:highest};
-
     // 元信息
     var meta = '<span><strong>规则：</strong><span class="chip chip-blue">'+RULES[rule]+'</span></span>' +
       '<span><strong>权重：</strong>'+inp.w+'%</span>' +
-      '<span><strong>最低：</strong>'+lowest.toFixed(2)+'万</span>' +
-      '<span><strong>最高：</strong>'+highest.toFixed(2)+'万</span>' +
-      '<span><strong>均值：</strong>'+avg.toFixed(2)+'万</span>';
-    if(rule==='iq') meta += '<span><strong>IQR中位数：</strong>'+mid.toFixed(2)+'万</span>';
+      '<span><strong>最低：</strong>'+s.lowest.toFixed(2)+'万</span>' +
+      '<span><strong>最高：</strong>'+s.highest.toFixed(2)+'万</span>' +
+      '<span><strong>均值：</strong>'+s.avg.toFixed(2)+'万</span>';
+    if(rule==='iq') meta += '<span><strong>IQR中位数：</strong>'+s.mid.toFixed(2)+'万</span>';
+    if(rule==='eval') meta += '<span><strong>评标价 Q：</strong>'+s.evalPrice.toFixed(3)+'万</span>'+
+      '<span class="thint">（'+s.evalMode+'）</span>';
     document.getElementById('scoreMeta').innerHTML = meta;
 
     // 评分卡片
     var rankBadge = ['🥇','🥈','🥉','#4','#5','#6','#7','#8'];
     var cardClass = ['rank-1','rank-2','rank-3','other','other','other','other','other'];
     var gHtml = '';
-    scored.forEach(function(s,i){
+    scored.forEach(function(sc,i){
       var ri = Math.min(i,7);
-      var riskTag = s.risk==='danger'?'<span class="risk-tag danger">⚠️重点审查</span>':s.risk==='warn'?'<span class="risk-tag warn">需澄清</span>':'';
+      var riskTag = sc.risk==='danger'?'<span class="risk-tag danger">⚠️重点审查</span>':sc.risk==='warn'?'<span class="risk-tag warn">需澄清</span>':'';
+      var rawLabel = rule === 'eval' ? '报价得分 K ' : '原始分 ';
       gHtml += '<div class="score-card '+cardClass[ri]+'">'+
         '<div class=top-badge>'+rankBadge[ri]+'</div>'+
-        '<div class=score-name><strong>'+esc(s.name)+'</strong></div>'+
-        '<div class=score-price>'+s.price.toFixed(2)+'万 '+riskTag+'</div>'+
-        '<div class=score-big>'+s.wscore.toFixed(1)+'</div>'+
-        '<div class=score-raw>原始 '+s.raw.toFixed(1)+' × '+inp.w+'%</div>'+
+        '<div class=score-name><strong>'+esc(sc.name)+'</strong></div>'+
+        '<div class=score-price>'+sc.price.toFixed(2)+'万 '+riskTag+'</div>'+
+        '<div class=score-big>'+fmtScore(sc.wscore)+'</div>'+
+        '<div class=score-raw>'+rawLabel+fmtScore(sc.raw)+' × '+inp.w+'%</div>'+
         '<span class=score-rank>第'+(i+1)+'名</span>'+
       '</div>';
     });
@@ -1023,6 +780,8 @@
       warnHtml = '<div class=low-warn><span class=icon>⚠️</span><span><strong>'+esc(scored[0].name)+'</strong>（加权分 '+scored[0].wscore.toFixed(1)+'分）排名第1，但触发多条低价审查条件，建议重点审查其成本合理性。</span></div>';
     }
     document.getElementById('scoreWarn').innerHTML = warnHtml;
+
+    lastResult = {scored:scored,inp:inp,avg:s.avg,mid:s.mid,lowest:s.lowest,highest:s.highest};
 
     document.getElementById('resultSection').style.display = 'block';
     renderHistory();
@@ -1043,11 +802,17 @@
       p2: Math.round(inp.p2*100),
       p3: Math.round(inp.p3*100),
       maxP: inp.maxP,
-      bids: scored.map(function(b){ return {name:b.name,price:b.price,raw:b.raw,wscore:b.wscore,rank:b.rank}; }),
+      bids: inp.bids.map(function(b, idx){
+        // 按原始输入顺序保存，加载后行序不变
+        var sc = scored.find(function(x){return x.idx===idx;});
+        return {name:b.name, price:b.price, raw:sc?sc.raw:0, wscore:sc?sc.wscore:0, rank:sc?sc.rank:idx+1};
+      }),
       savedAt: new Date().toLocaleString('zh-CN')
     };
     history.unshift(entry);
     if(history.length > 20) history = history.slice(0,20);
+    try { localStorage.setItem('bid_hist_v3', JSON.stringify(history)); }
+    catch(e) { alert('保存失败：'+e.message); return; }
     document.getElementById('roundName').value = '';
     renderHistory();
     var btn = document.getElementById('saveBtn');
@@ -1057,9 +822,16 @@
     tip.textContent = '已保存为"'+name+'"，共'+history.length+'条';
     setTimeout(function(){
       btn.disabled = false;
-      btn.textContent = '💾 保存到本页历史';
+      btn.textContent = '💾 保存到历史';
       tip.textContent = '';
     }, 2500);
+  }
+
+  // 得分第一名（历史按原始顺序保存，不能用 bids[0]）
+  function topBidOf(entry) {
+    var t = null;
+    (entry.bids || []).forEach(function(b){ if(b.rank === 1) t = b; });
+    return t || (entry.bids && entry.bids[0]);
   }
 
   function renderHistory() {
@@ -1078,17 +850,16 @@
     var filtered = activeTab==='all' ? history : history.filter(function(h){ return h.name.indexOf(activeTab)!==-1; });
 
     if(!history.length) {
-      document.getElementById('histList').innerHTML = '<div class=hist-empty>暂无历史记录<div class=sub>保存后仅在当前页面保留，刷新后自动清空</div></div>';
+      document.getElementById('histList').innerHTML = '<div class=hist-empty>暂无历史记录<div class=sub>保存后可在本地累计，多轮结果可横向对比</div></div>';
     } else {
       document.getElementById('histList').innerHTML = filtered.map(function(h){
         var chips = h.bids.map(function(b){
-          var cls = b.rank===1?' top':(h.bids[0] && b.wscore < h.bids[0].wscore*0.8?' warn':'');
-          return '<span class="hist-score-chip'+cls+'">'+esc(b.name)+' '+b.wscore.toFixed(1)+'分</span>';
+          var top = topBidOf(h);
+          var cls = b.rank===1?' top':(top && b.wscore < top.wscore*0.8?' warn':'');
+          return '<span class="hist-score-chip'+cls+'">'+esc(b.name)+' '+fmtScore(b.wscore)+'分</span>';
         }).join('');
         return '<div class=hist-item>'+
-          '<div class=hist-meta>'+
-            '<span class=hist-name>'+esc(h.name)+'</span>'+
-          '</div>'+
+          '<div class=hist-meta><span class=hist-name>'+esc(h.name)+'</span></div>'+
           '<div class=hist-detail>'+
             '<span class="chip chip-blue">'+RULES[h.rule]+'</span>'+
             '<span>权重'+h.weight+'%</span>'+
@@ -1118,6 +889,7 @@
     [].forEach.call(document.querySelectorAll('.rule-tab'),function(t){
       t.classList.toggle('active', t.dataset.rule===rule);
     });
+    updateRuleExplain();
     var c = document.getElementById('bidders');
     c.innerHTML = '';
     h.bids.forEach(function(b,i){
@@ -1135,6 +907,7 @@
   };
   window.delHist = function(id){
     history = history.filter(function(h){return h.id!==id;});
+    localStorage.setItem('bid_hist_v3', JSON.stringify(history));
     renderHistory();
   };
 
@@ -1161,7 +934,7 @@
       rounds.forEach(function(h){
         var b = h.bids.find(function(x){return x.name===name;});
         if(!b){cells.push('<td style="color:#cbd5e1">—</td>');return;}
-        var top = h.bids[0];
+        var top = topBidOf(h);
         var gap = top.wscore - b.wscore;
         var barW = top.wscore>0 ? Math.max(b.wscore/top.wscore*100,5) : 5;
         var ri = Math.min(b.rank-1,7);
@@ -1169,7 +942,7 @@
         var barBg = {g:'#fbbf24',s:'#94a3b8',b:'#d97706',n:'#3b82f6'}[bc[ri]];
         cells.push('<td style="background:'+bgC[ri]+'">'+
           '<span class="rank-dot '+dc[ri]+'">'+b.rank+'</span>'+
-          '<span class=gap-score>'+b.wscore.toFixed(1)+'</span>'+
+          '<span class=gap-score>'+fmtScore(b.wscore)+'</span>'+
           '<div class=gap-bar-wrap><div class=gap-bar style="width:'+barW+'%;background:'+barBg+'"></div></div>'+
           '<div class="gap-diff '+diffCls+'">'+(gap>0?'-':gap<0?'+':'±')+Math.abs(gap).toFixed(1)+'</div>'+
         '</td>');
