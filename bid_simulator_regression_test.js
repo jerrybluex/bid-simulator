@@ -280,6 +280,137 @@ async function testEvalPriceScoreNeverNegativeAndKeepsThreeDecimals() {
   });
 }
 
+// 评标价参数可配置：满分 K / 双向扣分系数
+async function testEvalParamsAreConfigurable() {
+  await withPage(async page => {
+    await page.locator('.rule-tab[data-rule="eval"]').click();
+    await page.locator('#evalFull').fill('20');
+    await page.locator('#evalLowCoef').fill('0.05');
+    await page.locator('#evalHighCoef').fill('0.5');
+    await setRows(page, [
+      { name: 'A', price: 40 },
+      { name: 'B', price: 45 },
+      { name: 'C', price: 50 },
+      { name: 'D', price: 55 },
+      { name: 'E', price: 60 },
+    ]);
+    await page.locator('#calcBtn').click();
+
+    // Q = 50
+    const scores = await page.locator('.score-card .score-big').allInnerTexts();
+    const names = await page.locator('.score-card .score-name').allInnerTexts();
+    const byName = {};
+    names.forEach((n, i) => { byName[n.trim()] = parseFloat(scores[i]); });
+
+    assert.ok(Math.abs(byName['C'] - 20) < 0.0005, '等于Q应得满分20，实际 ' + byName['C']);
+    // A=40 低于Q 20%：20 - (10/50)*100*0.05 = 19
+    assert.ok(Math.abs(byName['A'] - 19) < 0.0005, 'A 应得19分，实际 ' + byName['A']);
+    // E=60 高于Q 20%：20 - (10/50)*100*0.5 = 10
+    assert.ok(Math.abs(byName['E'] - 10) < 0.0005, 'E 应得10分，实际 ' + byName['E']);
+    // B=45 低于10%：20 - (5/50)*100*0.05 = 19.5
+    assert.ok(Math.abs(byName['B'] - 19.5) < 0.0005, 'B 应得19.5分，实际 ' + byName['B']);
+    // D=55 高于10%：20 - (5/50)*100*0.5 = 15
+    assert.ok(Math.abs(byName['D'] - 15) < 0.0005, 'D 应得15分，实际 ' + byName['D']);
+
+    // 规则说明必须跟着参数走，不能还写死 30
+    const explain = await page.locator('#ruleExplain').innerText();
+    assert.ok(explain.includes('K = 20'), '说明应显示满分 20，实际: ' + explain);
+    assert.ok(explain.includes('0.05'), '说明应显示低价系数 0.05，实际: ' + explain);
+    assert.ok(explain.includes('0.5'), '说明应显示高价系数 0.5，实际: ' + explain);
+    assert.ok(!explain.includes('K = 30'), '说明不应再出现写死的 K = 30，实际: ' + explain);
+  });
+}
+
+// 评标价口径门槛可配置：超过 N 家才去极值
+async function testEvalTrimThresholdIsConfigurable() {
+  await withPage(async page => {
+    await page.locator('.rule-tab[data-rule="eval"]').click();
+    await setRows(page, [
+      { name: 'A', price: 10 },
+      { name: 'B', price: 20 },
+      { name: 'C', price: 30 },
+      { name: 'D', price: 60 },
+    ]);
+    await page.locator('#calcBtn').click();
+    let meta = await page.locator('#scoreMeta').innerText();
+    assert.ok(meta.includes('30.000'), '默认门槛下 4 家应取全部均值 Q=30，实际: ' + meta);
+
+    await page.locator('#evalTrimN').fill('3');
+    await page.locator('#calcBtn').click();
+    meta = await page.locator('#scoreMeta').innerText();
+    assert.ok(meta.includes('25.000'), '门槛改为3后应去极值 Q=25，实际: ' + meta);
+    assert.ok(meta.includes('去掉一个最高和一个最低'), '应标明评标价口径，实际: ' + meta);
+
+    // Q=25：A=10 → 30 - (15/25)*100*0.1 = 24
+    const scores = await page.locator('.score-card .score-big').allInnerTexts();
+    const names = await page.locator('.score-card .score-name').allInnerTexts();
+    const byName = {};
+    names.forEach((n, i) => { byName[n.trim()] = parseFloat(scores[i]); });
+    assert.ok(Math.abs(byName['A'] - 24) < 0.0005, 'A 应得24分，实际 ' + byName['A']);
+  });
+}
+
+// 评标价参数只在评标价规则下显示
+async function testEvalParamsAreVisibleOnlyForEvalRule() {
+  await withPage(async page => {
+    const isVisible = async () =>
+      await page.locator('#evalParams').evaluate(el => getComputedStyle(el).display !== 'none');
+    assert.strictEqual(await isVisible(), false, '默认规则下评标价参数应隐藏');
+    await page.locator('.rule-tab[data-rule="eval"]').click();
+    assert.strictEqual(await isVisible(), true, '切到评标价规则后参数应显示');
+    await page.locator('.rule-tab[data-rule="lowest"]').click();
+    assert.strictEqual(await isVisible(), false, '切回最低价法后参数应隐藏');
+  });
+}
+
+// 评标价参数随历史轮次存取
+async function testEvalParamsSurviveHistoryRoundtrip() {
+  await withPage(async page => {
+    await page.locator('.rule-tab[data-rule="eval"]').click();
+    await page.locator('#evalFull').fill('20');
+    await page.locator('#evalLowCoef').fill('0.05');
+    await page.locator('#evalHighCoef').fill('0.5');
+    await page.locator('#evalTrimN').fill('3');
+    await page.locator('#calcBtn').click();
+    await page.locator('#roundName').fill('评标价轮次');
+    await page.locator('#saveBtn').click();
+
+    await page.locator('.btn-load').first().click();
+    await page.waitForTimeout(500);
+    assert.strictEqual(await page.locator('#evalFull').inputValue(), '20');
+    assert.strictEqual(await page.locator('#evalLowCoef').inputValue(), '0.05');
+    assert.strictEqual(await page.locator('#evalHighCoef').inputValue(), '0.5');
+    assert.strictEqual(await page.locator('#evalTrimN').inputValue(), '3');
+  });
+}
+
+// 手动改价分析里也必须用同一套评标价参数
+async function testManualPressureUsesEvalParams() {
+  await withPage(async page => {
+    await page.locator('.rule-tab[data-rule="eval"]').click();
+    await setRows(page, [
+      { name: '投标人A', price: 40 },
+      { name: '投标人B', price: 45 },
+      { name: '投标人C', price: 50 },
+      { name: '投标人D', price: 55 },
+      { name: '投标人E', price: 60 },
+    ]);
+    await page.locator('#pressureA').selectOption({ index: 0 });
+    await page.locator('#pressureB').selectOption({ index: 1 });
+    await page.locator('#pressureC').selectOption({ index: 2 });
+    await page.locator('#pressurePrice').fill('30');
+    await page.locator('#addPressureBtn').click();
+
+    // A 改为 30 后：Q = (30+45+50+55+60)/5 = 48
+    // B=45 低于Q：30 - (3/48)*100*0.1 = 29.375
+    // C=50 高于Q：30 - (2/48)*100*0.2 = 29.167
+    const rowText = await page.locator('#pressureRows tr').first().innerText();
+    assert.ok(rowText.includes('29.375'), '竞争者得分应为 29.375，实际: ' + rowText);
+    assert.ok(rowText.includes('29.167'), '目标得分应为 29.167，实际: ' + rowText);
+    assert.ok(rowText.includes('-0.21'), '分差应为 -0.21，实际: ' + rowText);
+  });
+}
+
 (async () => {
   const tests = [
     testRuleExplanationIsVisible,
@@ -294,6 +425,11 @@ async function testEvalPriceScoreNeverNegativeAndKeepsThreeDecimals() {
     testEvalPriceRuleWithFiveOrFewBidders,
     testEvalPriceRuleTrimsWhenMoreThanFiveBidders,
     testEvalPriceScoreNeverNegativeAndKeepsThreeDecimals,
+    testEvalParamsAreConfigurable,
+    testEvalTrimThresholdIsConfigurable,
+    testEvalParamsAreVisibleOnlyForEvalRule,
+    testEvalParamsSurviveHistoryRoundtrip,
+    testManualPressureUsesEvalParams,
   ];
   for (const t of tests) {
     await t();

@@ -310,6 +310,24 @@
         </select>
       </div>
     </div>
+    <div class="input-row" id="evalParams" style="display:none">
+      <div class="input-group" style="max-width:150px;">
+        <label>评标价满分 K（分）</label>
+        <input type="number" id="evalFull" value="30" min="0" step="1">
+      </div>
+      <div class="input-group" style="max-width:170px;">
+        <label>低价偏离扣分（每1%扣）</label>
+        <input type="number" id="evalLowCoef" value="0.1" min="0" step="0.01">
+      </div>
+      <div class="input-group" style="max-width:170px;">
+        <label>高价偏离扣分（每1%扣）</label>
+        <input type="number" id="evalHighCoef" value="0.2" min="0" step="0.01">
+      </div>
+      <div class="input-group" style="max-width:170px;">
+        <label>超过 ___ 家去极值</label>
+        <input type="number" id="evalTrimN" value="5" min="1" step="1">
+      </div>
+    </div>
     <div class="rule-explain" id="ruleExplain"></div>
   </div>
 
@@ -449,6 +467,22 @@
     });
   }
 
+  // 数字输入取值：空/非法回落到默认值（不能用 || ，否则 0 会被当成空）
+  function numOr(id, def) {
+    var v = parseFloat(document.getElementById(id).value);
+    return isFinite(v) ? v : def;
+  }
+
+  // 评标价偏离扣分法的可配置参数
+  function readEvalParams() {
+    return {
+      full: Math.max(0, numOr('evalFull', 30)),
+      lowCoef: Math.max(0, numOr('evalLowCoef', 0.1)),
+      highCoef: Math.max(0, numOr('evalHighCoef', 0.2)),
+      trimN: Math.max(1, Math.round(numOr('evalTrimN', 5)))
+    };
+  }
+
   // 评标价规则要求保留3位小数，其余规则1位
   function fmtScore(v) {
     if (v === null || v === undefined || isNaN(v)) return '-';
@@ -477,6 +511,9 @@
   document.getElementById('bidders').addEventListener('input', renderPressureControls);
   document.getElementById('weight').addEventListener('input', updateRuleExplain);
   document.getElementById('direction').addEventListener('change', updateRuleExplain);
+  ['evalFull','evalLowCoef','evalHighCoef','evalTrimN'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', updateRuleExplain);
+  });
 
   document.getElementById('ruleTabs').onclick = function(e) {
     var tab = e.target.closest && e.target.closest('.rule-tab');
@@ -490,6 +527,9 @@
   function updateRuleExplain() {
     var weight = parseFloat(document.getElementById('weight').value) || 100;
     var dir = document.getElementById('direction').value;
+    var ev = readEvalParams();
+    // 评标价参数只在该规则下显示
+    document.getElementById('evalParams').style.display = (rule === 'eval') ? 'flex' : 'none';
     var ruleText = {
       lowest: {
         title: '最低价法',
@@ -513,8 +553,8 @@
       },
       eval: {
         title: '评标价偏离扣分法',
-        formula: '报价得分 K = 30 - [(Q-q) ÷ Q] × 100 × 0.1（q&lt;Q）',
-        note: '评标价 Q：有效投标报价 ≤5 家时取全部算术平均；超过 5 家时去掉一个最高和一个最低后取算术平均。报价高于 Q 时按 K = 30 - [(q-Q) ÷ Q] × 100 × 0.2 扣分。K 最低为 0，保留 3 位小数。'
+        formula: '报价得分 K = ' + ev.full + ' - [(Q-q) ÷ Q] × 100 × ' + ev.lowCoef + '（q&lt;Q）',
+        note: '评标价 Q：有效投标报价 ≤' + ev.trimN + ' 家时取全部算术平均；超过 ' + ev.trimN + ' 家时去掉一个最高和一个最低后取算术平均。报价高于 Q 时按 K = ' + ev.full + ' - [(q-Q) ÷ Q] × 100 × ' + ev.highCoef + ' 扣分。K 最低为 0，保留 3 位小数。'
       }
     }[rule];
     var directionText = dir === 'higher'
@@ -526,7 +566,7 @@
       '<div><span class=rule-formula>'+ruleText.formula+'</span></div>'+
       '<ul>'+
         '<li>'+ruleText.note+'</li>'+
-        '<li>加权得分 = 报价得分 K × 价格分权重（当前为 '+weight+'%）。本规则满分 K=30，权重 100% 时加权得分即为 K 分。</li>'+
+        '<li>加权得分 = 报价得分 K × 价格分权重（当前为 '+weight+'%）。本规则满分 K='+ev.full+'，权重 100% 时加权得分即为 K 分。</li>'+
         '<li>'+directionText+'</li>'+
         '<li>低价审查不改变得分，只标记风险：低于均值阈值、次低价阈值或最高限价阈值时会提示"需澄清/重点审查"。</li>'+
       '</ul>';
@@ -539,6 +579,7 @@
     var maxP = parseFloat(document.getElementById('maxPrice').value);
     var w = parseFloat(document.getElementById('weight').value)||100;
     var dir = document.getElementById('direction').value;
+    var ev = readEvalParams();
     var rows = document.querySelectorAll('#bidders .bidder-row');
     var bids = [];
     var invalidPrice = false;
@@ -549,17 +590,19 @@
       if(priceValue && (!isFinite(price) || price <= 0)) invalidPrice = true;
       if(isFinite(price) && price > 0) bids.push({name:name, price:price});
     });
-    return {p1:p1,p2:p2,p3:p3,maxP:maxP,w:w,dir:dir,bids:bids,invalidPrice:invalidPrice};
+    return {p1:p1,p2:p2,p3:p3,maxP:maxP,w:w,dir:dir,bids:bids,invalidPrice:invalidPrice,
+            evalFull:ev.full, evalLowCoef:ev.lowCoef, evalHighCoef:ev.highCoef, evalTrimN:ev.trimN};
   }
 
-  // 评标价 Q：≤5家取全部有效报价算术平均；>5家去掉一个最高和一个最低后取算术平均
-  function calcEvalPrice(prices) {
+  // 评标价 Q：≤trimN家取全部有效报价算术平均；超过trimN家去掉一个最高和一个最低后取算术平均
+  function calcEvalPrice(prices, trimN) {
     if (!prices.length) return 0;
-    if (prices.length <= 5) {
+    if (prices.length <= trimN) {
       return prices.reduce(function(s,v){return s+v;},0)/prices.length;
     }
     var sorted = prices.slice().sort(function(a,b){return a-b;});
     var trimmed = sorted.slice(1, sorted.length-1);
+    if (!trimmed.length) return prices.reduce(function(s,v){return s+v;},0)/prices.length;
     return trimmed.reduce(function(s,v){return s+v;},0)/trimmed.length;
   }
 
@@ -570,8 +613,8 @@
     var avg = prices.reduce(function(s,v){return s+v;},0)/prices.length;
     var min2 = sorted[1];
     var lowest = sorted[0], highest = sorted[sorted.length-1];
-    var evalPrice = calcEvalPrice(prices);
-    var evalMode = prices.length <= 5 ? '全部有效报价算术平均' : '去掉一个最高和一个最低后的算术平均';
+    var evalPrice = calcEvalPrice(prices, inp.evalTrimN);
+    var evalMode = prices.length <= inp.evalTrimN ? '全部有效报价算术平均' : '去掉一个最高和一个最低后的算术平均';
     var line1 = avg*inp.p1, line2 = min2*inp.p2, line3 = inp.maxP*inp.p3;
     var reviews = inp.bids.map(function(b, idx){
       var trig = [];
@@ -591,11 +634,12 @@
       else if(rule === 'ratio') raw = Math.min(100,(inp.maxP/b.price)*50);
       else if(rule === 'iq') raw = Math.max(0,(1-Math.abs(b.price-mid)/mid)*100);
       else if(rule === 'eval') {
-        // K = 30 - [(Q-q)/Q]×100×0.1（q<Q）; K = 30 - [(q-Q)/Q]×100×0.2（q>Q）; K≥0
+        // K = 满分 - [(Q-q)/Q]×100×低价系数（q<Q）; K = 满分 - [(q-Q)/Q]×100×高价系数（q>Q）; K≥0
+        var K = inp.evalFull;
         if (evalPrice > 0) {
-          if (b.price < evalPrice) raw = 30 - ((evalPrice - b.price) / evalPrice) * 100 * 0.1;
-          else if (b.price > evalPrice) raw = 30 - ((b.price - evalPrice) / evalPrice) * 100 * 0.2;
-          else raw = 30;
+          if (b.price < evalPrice) raw = K - ((evalPrice - b.price) / evalPrice) * 100 * inp.evalLowCoef;
+          else if (b.price > evalPrice) raw = K - ((b.price - evalPrice) / evalPrice) * 100 * inp.evalHighCoef;
+          else raw = K;
         } else {
           raw = 0;
         }
@@ -647,6 +691,8 @@
 
     var scenarioInp = {
       p1: inp.p1, p2: inp.p2, p3: inp.p3, maxP: inp.maxP, w: inp.w, dir: inp.dir,
+      evalFull: inp.evalFull, evalLowCoef: inp.evalLowCoef,
+      evalHighCoef: inp.evalHighCoef, evalTrimN: inp.evalTrimN,
       bids: inp.bids.map(function(b){ return {name:b.name, price:b.price}; })
     };
     scenarioInp.bids[aIdx].price = aPrice;
@@ -802,6 +848,10 @@
       p2: Math.round(inp.p2*100),
       p3: Math.round(inp.p3*100),
       maxP: inp.maxP,
+      evalFull: inp.evalFull,
+      evalLowCoef: inp.evalLowCoef,
+      evalHighCoef: inp.evalHighCoef,
+      evalTrimN: inp.evalTrimN,
       bids: inp.bids.map(function(b, idx){
         // 按原始输入顺序保存，加载后行序不变
         var sc = scored.find(function(x){return x.idx===idx;});
@@ -885,6 +935,11 @@
     document.getElementById('p1').value = h.p1;
     document.getElementById('p2').value = h.p2;
     document.getElementById('p3').value = h.p3;
+    // 评标价参数：老记录没有这些字段，回落到默认值
+    document.getElementById('evalFull').value = h.evalFull !== undefined ? h.evalFull : 30;
+    document.getElementById('evalLowCoef').value = h.evalLowCoef !== undefined ? h.evalLowCoef : 0.1;
+    document.getElementById('evalHighCoef').value = h.evalHighCoef !== undefined ? h.evalHighCoef : 0.2;
+    document.getElementById('evalTrimN').value = h.evalTrimN !== undefined ? h.evalTrimN : 5;
     rule = h.rule;
     [].forEach.call(document.querySelectorAll('.rule-tab'),function(t){
       t.classList.toggle('active', t.dataset.rule===rule);
